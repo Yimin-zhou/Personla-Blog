@@ -7,9 +7,7 @@ description: >-
   虚幻4中对于置换效果的尝试
 image: https://s6.jpg.cm/2022/08/03/PQ2fDe.gif
 category: 效果
-tags:
-  - shader
-  - ue
+tags: [project]
 ---
 
 ## 过程

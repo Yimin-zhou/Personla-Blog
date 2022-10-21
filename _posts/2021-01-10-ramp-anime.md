@@ -7,9 +7,7 @@ description: >-
   unity实现一个简单的二次元效果
 image: https://s6.jpg.cm/2022/08/03/PQ2v0w.gif
 category: 效果
-tags:
-  - shader
-  - unity
+tags: [project]
 ---
 
 ## 过程

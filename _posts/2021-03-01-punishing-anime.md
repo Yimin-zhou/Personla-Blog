@@ -7,9 +7,7 @@ description: >-
   在Unity根据素材尝试还原战双卡通效果
 image: https://s6.jpg.cm/2022/08/03/PQ2Bok.gif
 category: 效果
-tags:
-  - shader
-  - unity
+tags: [project]
 ---
 
 参考ShaderToy上的shader在Unity中实现雨滴效果
