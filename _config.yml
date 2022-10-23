@@ -31,7 +31,7 @@ author:
 hero:
   hero__title: I'm Yimin Zhou
   hero__description: Study, Computer Graphics, Games, Programming.
-  hero__image: '/images/02.jpg'
+  hero__image: '/images/scene/snow.png'
 
 
 #-------------------------------
@@ -49,21 +49,21 @@ gallery:
   gallery__columns: 4
   gallery__images:
     - alt: 'Rest'
-      url: '/images/100.jpg'
+      url: '/images/scene/2049.png'
     - alt: 'Lifestyle'
-      url: '/images/101.jpg'
+      url: '/images/scene/attic1.png'
     - alt: 'Hobby'
-      url: '/images/102.jpg'
+      url: '/images/scene/hallway.png'
     - alt: 'Notes'
-      url: '/images/103.jpg'
+      url: '/images/scene/snow.png'
     - alt: 'Rest'
-      url: '/images/104.jpg'
+      url: '/images/scene/v.png'
     - alt: 'Hobby'
-      url: '/images/105.jpg'
+      url: '/images/scene/attic2.png'
     - alt: 'Fashion'
-      url: '/images/106.jpg'
+      url: '/images/scene/stylized.png'
     - alt: 'Notes'
-      url: '/images/107.jpg'
+      url: '/images/scene/stylized2.png'
 
 
 #-------------------------------
