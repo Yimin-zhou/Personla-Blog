@@ -1,95 +1,81 @@
 ---
 date: 2021-04-13 23:48:05
 layout: post
-title: 物体组装特效
-subtitle: 物体从消失到出现的特效
+title: Bastion effect
 description: >-
-  在Unreal实现的物体组装特效
+  Bastion effect in UE.
 image: https://s6.jpg.cm/2022/08/03/PQ2KNt.gif
-category: 效果
-tags:
-  - shader
-  - unreal
+tags: [project]
 ---
-# 目标效果：
-展示物体细节部件出现组装效果（类似从scale 0 到 scale 1）。
-展示物体线框效果。
-界面展示UI。
 
-# 制作过程：
-## 物体出现效果。
-第一步：先用一堆cube来进行效果的实现和测试。
+# Target effect
+Show object detail parts appearing assembled (similar to going from scale 0 to scale 1).
+Show object wireframe effect.
+Interface to show UI.
+
+# Process
+Step 1: Start with a bunch of cube to implement and test the effect.
 ![](/assets/img/bastion/1.png)
-通过Unreal的材质编辑器中的World postion offset，做一个简单的Vertex shader:
+Make a simple Vertex shader using the World postion offset in Unreal's material editor:
 ![](/assets/img/bastion/2.png)
-大致原理就是对顶点进行由中心到边缘或者由边缘到中心的偏移，现在先暂时手动用一个参数进行控制。
+The general principle is to offset the vertices from center to edge or edge to center, for now, manually with one parameter for control.
 ![](/assets/img/bastion/3.png)
 ![](/assets/img/bastion/4.png)
-再加一个类似游戏Bastion中的效果，效果从缩放出现改变成位移出现。
+Add another effect similar to the one in the game Bastion, where the effect changes from a zoomed appearance to a displaced appearance.
 ![](/assets/img/bastion/5.png)
-也是在Vertex shader中进行的实现，物体当前位置乘上一个float3来控制方向（默认z轴），再用一个参数来暂时手动控制位移。
+Also implemented in the Vertex shader, where the current position of the object is multiplied by a float3 to control the orientation (default z-axis), and a parameter is used to temporarily control the displacement manually.
 ![](/assets/img/bastion/6.png)
 ![](/assets/img/bastion/7.png)
-将这两个效果加起来，连入World postion offset，之后在蓝图中可以分别控制这两个参数来实现整体效果。
+Add these two effects together and connect them to the World postion offset, after that you can control these two parameters separately in the blueprint to achieve the overall effect.
 
-注：Scale_ 参数默认为0(0-1)，Position_ 参数默认为 3(0-3)， 为初始状态，方便改变参数时展现效果动画。
+Note: Scale_ parameter defaults to 0(0-1) and Position_ parameter defaults to 3(0-3), which is the initial state to show the effect animation when changing parameters.
 
-## 线框特效。
-先是获得每个像素的世界空间坐标值（获得“分区”），减去object position。然后与一个参数进行Fmod来得到更多的坐标“分界线”。
-![](/assets/img/bastion/8.png)（Fmod前效果）![](/assets/img/bastion/9.png)（Fmod后）
-用一个参数来减之后就会只剩下“分界线”，再与1进行点乘来的到一个网格的“mask” 
+## Wireframe effects
+First get the world space coordinates of each pixel (get the "partition"), subtract the object position, then Fmod with one parameter to get more coordinates "partition".
+![](/assets/img/bastion/8.png) (pre-Fmod effect)! [](/assets/img/bastion/9.png) (after Fmod)
+After subtracting with one parameter, only the "divider" will be left, and then dot multiply with 1 to get a grid "mask" 
 ![](/assets/img/bastion/10.png)
 ![](/assets/img/bastion/11.png)
-和自发光相乘的大致效果：
-![](/assets/img/bastion/12.png)
-但上面这个线框效果效果并不好，物体移动时线框也会移动。
+The approximate effect of multiplying with self-illumination.
+! [](/assets/img/bastion/12.png)
+But the above wireframe effect is not good, the wireframe will move when the object moves.
 
-还是做一个根据模型自身的线框来的效果：
-在材质中直接勾选Wireframe 就可以得到一个线框的效果：
+It is better to make an effect based on the model's own wireframe: !
+Check Wireframe directly in the material to get a wireframe effect: !
 ![](/assets/img/bastion/13.png)
-但这样看起来比较乱，而且没有其他（如光照等效果了。
-于是再加一个模型（两个材质，主要区别就是一个开启wireframe，一个不开启）。和线框叠在一起，就是一个还算可以的线框网格效果。
+But this looks rather messy, and there are no other effects (such as lighting, etc.).
+So add another model (two materials, the main difference is that one turns on wireframe and one doesn't). And the wireframe stacked together, is a pretty good wireframe grid effect.
 ![](/assets/img/bastion/14.png)
 
-## 效果的应用。
-大致思路是用蓝图来对之前的两个参数 Scale_ 和 Position_ 进行控制，如使用Time line。
-第一步：将两个材质共用的Scale和Position参数放入Material parameter collection。
+## The effect
+The general idea is to use the blueprint to control the two previous parameters Scale_ and Position_, such as using Time line.
+Step 1: Put the Scale and Position parameters shared by the two materials into the Material parameter collection.
 ![](/assets/img/bastion/15.png)
-同时再对材质进行修改。
+Also make another change to the material.
 
-创建一个蓝图，对Scale和Position进行控制。
+Create a blueprint with controls for Scale and Position.
 ![](/assets/img/bastion/16.png)
-创建一个Time line:
-利用时间对于这两个参数进行修改，以此来达到一个动画的效果。
+Create a Time line:
+Use time to modify these two parameters to achieve an animation effect.
 ![](/assets/img/bastion/17.png)
 
-第二步：对于用来展示的模型进行修改。
-目前的模型是一个整体，无法做到各种细小部件组合的效果，于是在Maya当中用提取面来选择出不同的部件（面选择双击会自动选出相连接的部件面）：
+Step 2: Modify the model used for display.
+The current model is a whole, can not do the effect of a combination of various small parts, so in Maya with the extraction of the surface to select different parts (double-click on the surface selection will automatically select the face of the connected parts): !
 ![](/assets/img/bastion/18.png)
-这样再加上之前的效果，就可以有一个不错的整体效果。
+This, together with the previous effect, gives a nice overall effect.
 
-
-
-
-## 展示UI。
-第一步：大致UI效果。
-界面主要分为两部分，主菜单和展示界面，
-先制作主菜单，大致是一个在转动的圆环，中间有一个开始按钮，按一下就可以加载展示车辆的关卡，并配上一些动画（UI素材来自网络），
+## UI
+Step 1: The general UI effect.
+The interface is mainly divided into two parts, the main menu and the display interface.
+First make the main menu, roughly a circle in the rotation, there is a start button in the middle, press it to load the level of the display vehicle, and with some animation (UI material from the network)
 ![](/assets/img/bastion/19.png)
 ![](/assets/img/bastion/20.png)
-第二步：为UI元素添加动画：
+Step 2: Add animations to the UI elements.
 ![](/assets/img/bastion/21.png)
-第四步：完善效果，增加按钮：
-用一个双面渲染的球，拉大，作为背景天空球。然后OPEN 和 CLOSE 分别会触发BP_Motor中的 Event 来展现物体的效果。
-效果：
+Step 4: Refine the effect and add buttons: !
+Use a double-sided rendered ball, stretched out, as a background sky ball. Then OPEN and CLOSE will trigger an Event in BP_Motor to show the object's effect, respectively.
+Effect.
 ![](/assets/img/bastion/22.png)
 ![](/assets/img/bastion/23.gif)
-
-参考：
-
-Bastion effect:https://www.youtube.com/watch?v=SSt2ypkAXeM
-UE4 vertex shader:https://www.youtube.com/watch?v=KyvndFgepBU
-
-
 
 ---

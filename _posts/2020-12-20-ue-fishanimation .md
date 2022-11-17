@@ -1,70 +1,64 @@
 ---
 date: 2020-12-15 23:48:05
 layout: post
-title: UE鱼的动画Shader
-subtitle: 利用顶点位移来实现动画
+title: Finish Animation Shader
 description: >-
-  虚幻4中利用顶点位移来实现动画
+  Animation using vertex displacement
 image: https://s6.jpg.cm/2022/08/03/PQ20Fr.gif
-category: 效果
-tags:
-  - shader
-  - ue
+tags: [project]
 ---
 
-## 过程
+## Process
 
-## 大致思路：
+## Ideas
 
-整个模型的左右位移
-模型各个像素的offset
-用sine()
+The left and right shift of the whole model.
+Offset of each pixel of the model with `sine()`.
 
-### 1.先用模型world position 做一个offset：
+### 1.First make an offset with the model world position：
 
 ![](/assets/img/3-Unreal-animated-fish/1.png)
 ![](/assets/img/3-Unreal-animated-fish/2.png)
 ![](/assets/img/3-Unreal-animated-fish/3.png)
 
 
-### 2.以Z为轴旋转：
+### 2.Rotation in Z-axis.：
 
-用上一步的sine函数让鱼左右摇摆：
+Use the sine function from the previous step to make the fish sway from side to side:
 
 ![](/assets/img/3-Unreal-animated-fish/4.png)
 ![](/assets/img/3-Unreal-animated-fish/5.png)
 
 ### 3：
 
-y轴方向的sine函数offset（每个像素的世界坐标位置）（add中加上之前第一步的sine）。
-除以一个参数，降低频率。
+The sine function offset (the world coordinate position of each pixel) in the y-axis direction (add the sine from the previous step in add).
+Divide by one parameter to reduce the frequency.
 
 ![](/assets/img/3-Unreal-animated-fish/6.png)
 ![](/assets/img/3-Unreal-animated-fish/7.png)
 
 ### 4：
 
-z轴方向的sine函数offset（每个像素的世界坐标位置）。
+The sine function offset in the z-axis direction (the world coordinate position of each pixel).
 
 ![](/assets/img/3-Unreal-animated-fish/8.png)
 ![](/assets/img/3-Unreal-animated-fish/9.png)
 
 ### 5：
-
-前几步加起来接入主节点的worldpostion offset。
+The first few steps add up to the worldpostion offset of the access master node.
 
 ![](/assets/img/3-Unreal-animated-fish/10.png)
 
 ### 6：
 
-用一个mask使头部运动更少（在uv2中）。
+Use a mask to make the head move less (in uv2).
 
 ![](/assets/img/3-Unreal-animated-fish/11.png)
 ![](/assets/img/3-Unreal-animated-fish/12.png)
 
 ### 7：
 
-调调参数，结果：
+Tune the parameters, and the result.
 
 ![](/assets/img/3-Unreal-animated-fish/13.png)
 
