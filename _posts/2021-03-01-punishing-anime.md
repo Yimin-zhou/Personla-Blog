@@ -4,7 +4,7 @@ layout: post
 title: Anime Effect
 description: >-
   Anime Effect in Unity
-image: https://s6.jpg.cm/2022/08/03/PQ2Bok.gif
+image: assets\img\cover\punishing.gif
 tags: [project]
 ---
 

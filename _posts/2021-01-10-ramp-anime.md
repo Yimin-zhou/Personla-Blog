@@ -5,7 +5,7 @@ title: Anime Shader
 subtitle: 一个简单的二次元效果
 description: >-
   Anime Shader in Unity
-image: https://s6.jpg.cm/2022/08/03/PQ2v0w.gif
+image: assets\img\cover\anime.gif
 tags: [project]
 ---
 

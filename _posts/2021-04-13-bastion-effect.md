@@ -4,7 +4,7 @@ layout: post
 title: Bastion effect
 description: >-
   Bastion effect in UE.
-image: https://s6.jpg.cm/2022/08/03/PQ2KNt.gif
+image: assets\img\cover\iron.gif
 tags: [project]
 ---
 

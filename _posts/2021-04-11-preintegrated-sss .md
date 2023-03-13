@@ -4,7 +4,7 @@ layout: post
 title: pre integrated skin SSS effect
 description: >-
   Pre integrated skin SSS effect in Unity
-image: https://s6.jpg.cm/2022/08/03/PQ2oL8.gif
+image: assets\img\cover\sss.gif
 tags: [project]
 ---
 

@@ -4,7 +4,7 @@ layout: post
 title: UE Displacement Shader
 description: >-
   Experiments with Displacement effects in Unreal
-image: https://s6.jpg.cm/2022/08/03/PQ2fDe.gif
+image: assets\img\cover\dis.gif
 tags: [project]
 ---
 

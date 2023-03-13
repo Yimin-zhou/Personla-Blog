@@ -4,7 +4,7 @@ layout: post
 title: Outline with Stencil Test
 description: >-
   Outline with Stencil Test in Unity
-image: https://s6.jpg.cm/2022/08/03/PQ2C5C.gif
+image: assets\img\cover\xray.gif
 tags: [project]
 ---
 

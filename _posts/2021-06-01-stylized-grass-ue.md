@@ -4,7 +4,7 @@ layout: post
 title: Ghibli Stylized Grass
 description: >-
   Ghibli Stylized Grass in Unreal
-image: https://s6.jpg.cm/2022/08/03/PQ2h2R.gif
+image: assets\img\cover\grass.gif
 tags: [project]
 ---
 # Target effect.

@@ -4,7 +4,7 @@ layout: post
 title: Slimetroid
 description: >-
   A GameJam game made with Unity
-image: '/assets/img/slimetroid/2.png'
+image: assets\img\cover\slime.gif
 
 tags: [game]
 ---

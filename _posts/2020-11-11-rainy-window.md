@@ -4,7 +4,7 @@ layout: post
 title: Rainy Effect Shader
 description: >-
   A Rainy Window implemented in Unity
-image: 'https://s6.jpg.cm/2022/08/03/PQ22y5.gif'
+image: assets\img\cover\rain.gif
 
 tags: [project]
 ---

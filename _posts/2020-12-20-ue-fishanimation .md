@@ -4,7 +4,7 @@ layout: post
 title: Finish Animation Shader
 description: >-
   Animation using vertex displacement
-image: https://s6.jpg.cm/2022/08/03/PQ20Fr.gif
+image: assets\img\cover\fish.gif
 tags: [project]
 ---
 
