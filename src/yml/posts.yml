@@ -1,0 +1,10 @@
+show_time_bar: false
+show_modal_on_exit: false
+show_modal_on_finish_post: false
+two_columns_layout: false
+
+highlighter: rouge
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge

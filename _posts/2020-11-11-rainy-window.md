@@ -1,20 +1,25 @@
 ---
-date: 2020-11-11 23:48:05 +0300
+date: 2020-11-11 23:48:05
 layout: post
-title: Rainy Effect Shader
+title: 雨天窗户Shader
+subtitle: 一个下雨天窗户效果
 description: >-
-  A Rainy Window implemented in Unity
-image: assets\img\cover\rain.gif
-
-tags: [project]
+  在Unity实现的一个下雨天窗户效果
+image: /assets/img/cover/rain.gif
+category: 效果
+tags:
+  - shader
+  - unity
+  - archive
 ---
 
-Based on shaders on ShderToy.
-## Process
+参考ShaderToy上的shader在Unity中实现雨滴效果
 
-### 1.Dividing UV into smaller grids：
+## 过程
 
-Use frac() to divide the UV into smaller grids. Parameter _Size can change the number of grids.
+### 1.将UV分为小的网格：
+
+用 frac() 将UV分为多个小的网格，_Size值可以改变网格个数。
 
 ``` bash
  //make a grid, set origin to center
@@ -26,15 +31,15 @@ Use frac() to divide the UV into smaller grids. Parameter _Size can change the n
 ![](/assets/img/1-Unity-rain/0.png)
 
 
-### 2.Generate a circular raindrop in the center：
+### 2.在中心生成一个圆形的雨滴：
 
-Use smoothstep to generate a small circle in the middle of each grid.
+用smoothstep在每个格子中间生成一个小圆。
 
 ``` bash
 float drop = smoothstep(0.05,0.03,length(dropPos)); //distance to cell center
 ```
 
-Use sin() and Time.y to move the raindrops in the negative direction of the y-axis: (the raindrops move down the grid at the same time as they move up, so that when they move up it looks like they stay on the window for a while)
+利用sin() 和 Time.y 让雨滴向Y轴负方向运动：（雨滴移动的同时向下移动网格，当雨滴向上移动时看起来像是在窗户上停留了一段时间）
 
 ``` bash
 float T = _Time.y;
@@ -49,9 +54,9 @@ uv.y += T*_StayTime;
 
 
 
-### 3.Generate the traces left by raindrops：
+### 3.生成雨滴留下的痕迹：
 
-Generate tiny raindrops after large raindrops.
+在大雨滴后生成小雨滴。
 
 ``` bash
 //create drop trail
@@ -65,24 +70,24 @@ trail *= smoothstep(0.5,y,gv.y);//gradient, y is where main drop at
 ![](/assets/img/1-Unity-rain/2.png)
 
 
-### 4.Improve raindrop trace:
+### 4.改进雨滴运动轨迹：
 
-Simulate the raindrop trace with two functions on x and y directions (you can check the function shape in Desmos.com)
+x 和 y 上用两个函数模拟雨滴轨迹（可在desmos中看函数形状）
 
 ``` bash
 //drop movement
 float w = i.uv.y*10;
-// two functions to simulate raindrop trajectories
+//两个函数，模拟雨滴轨迹
 float x = sin(3*w)*pow(sin(w),6)*0.45;
 float y = -sin(T+sin(T+sin(T)*0.5))*0.45;
-y -= gv.x*gv.x;         //lower part wider
+y -= gv.x*gv.x;         //lower part wider 让雨滴没那么圆
  
 float2 dropPos = (gv-float2(x,y)) / aspect;
 ```
 
 
 
-Randomize the time in each cell.
+随机化每个格子里的时间：
 
 ``` bash
 //get random numbers
@@ -109,8 +114,8 @@ T += n*6.2831;//times 2PI to get more obvious random in sin() (T=2PI)
 
 ![](/assets/img/1-Unity-rain/4.png)
 
-Randomize the offset of x in each cell.
-(ensuring no offset out of the cell)
+随机化每个格子中x的偏移：
+（确保不会偏移出格子）
 
 ``` bash
 float x = (n-0.5)*0.8; //random number -0.4 to 0.4
@@ -119,6 +124,8 @@ x += (0.4-abs(x)) * sin(3*w)*pow(sin(w),6)*0.45;
  y -= (gv.x-x)*(gv.x-x);  
 
 ```
+
+改进雨滴痕迹：
 
 ``` bash
 float fogtrail = smoothstep(-0.05, 0.05, dropPos.y);//small drops lower than -0.05 will disappear
@@ -130,9 +137,9 @@ fogtrail *= smoothstep(0.05,0.04, abs(dropPos.x));//not show trail at left and r
 
 
 
-### 5.Add texture：
+### 5.加入texture，偏移uv，查看效果：
 
-Distortion Effect
+雨滴加入distortion效果
 
 ``` bash
 float2 offs = drop*dropPos + trail*trailPos;
@@ -141,8 +148,8 @@ col = tex2D(_MainTex, i.uv+offs*_Distortion);
 
 ![](/assets/img/1-Unity-rain/7.png)
 
-Modify the code to produce a blurring effect.
-(fogTrail position is not blurred)
+修改代码，通过显示mipmap产生模糊的效果：
+（fogTrail位置不模糊）
 
 ``` bash
 float blur = _Blur * 7*(1-fogtrail);
@@ -152,10 +159,10 @@ col = tex2Dlod(_MainTex, float4(i.uv+offs*_Distortion,0,blur));  // set mipmap t
 
 
 
-### 6.More raindrops:
+### 6.更多的雨滴：
 
-(put the code into an equation layer, return a float3, xy is uv offset offs, z is fogtrail)
-Each layer of raindrops offset by uv, the effect is better.
+（将代码放入一个方程layer， 返回一个float3， xy为uv偏移offs，z为fogtrail）
+每加一层雨滴偏移下uv， 效果更好。
 
 
 ``` bash
@@ -170,12 +177,19 @@ drops += layer(i.uv*1.5-8, T);
 ![](/assets/img/1-Unity-rain/10.png)
 
 
-Mimic the transparency effect with a camera render texture：
+### 7. 可以用一个摄像机的render texture模仿透明效果：
+
+用grabpass不生成mipmap,做模糊的话消耗较大
+(要对每一个像素用周围的像素做均值处理)
+
+
+
+
 ## 最终结果
 
 ![](/assets/img/1-Unity-rain/12.png)
 
-Reference:
+参考:
 shaderToy “HeartLeft”: https://www.shadertoy.com/view/ltffzl
 
 ---

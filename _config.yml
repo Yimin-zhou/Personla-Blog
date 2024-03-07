@@ -1,113 +1,100 @@
-#-------------------------------
 # Site Settings
-title: Yimin's Blog
-logo: # You can add own logo. For example '/images/logo.png'.
-description: Yimin Zhou's blog and portfolio.
+name: Yimin's-Tech-Art
+title: Fries Tech
+description: I'm Yimin Zhou. You can find my portfolio and blogs here.
+tags:
+  - blog
+  - TA
+  - Technical art
+show_hero: true
+menu:
+  - title: Home
+    url: /
+  - title: Shader
+    url: /tags/#shader
+  - title: Unity
+    url: /tags/#unity
+  - title: Unreal
+    url: /tags/#unreal
+  - title: 3D Environment
+    url: /tags/#environment
+  - title: 3D Model
+    url: /tags/#modelling
+  - title: About
+    url: /about
+
+
+# Posts Settings
+show_time_bar: false
+show_modal_on_exit: false
+show_modal_on_finish_post: true
+two_columns_layout: false
+
+
+# Advanced Settings
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-color_scheme: auto # You can choose three modes auto, light, and dark. By default, the auto mode is set, which means the user can choose the light or dark mode themself.
+url: "" # the base hostname & protocol for your site
+google_analytics: "UA-XXXXXXXX-X"
+language: "en"
+categories_folder: category
+sent_message_url: "/contact/message-sent/"
 
 
-#-------------------------------
-# Author Settings
-author:
-  author__name: Yimin Zhou
-  author__bio: Study, Computer Graphics, Games, Programming.
-  author__avatar: '/images/01-1.jpg'
-
-# social:
-# - {icon: "ion-logo-twitter", link: "https://twitter.com"}
-# - {icon: "ion-logo-facebook", link: "https://facebook.com"}
-# - {icon: "ion-logo-instagram", link: "https://instagram.com"}
-# - {icon: "ion-logo-pinterest", link: "https://pinterest.com"}
-# - {icon: "ion-logo-youtube", link: "https://youtube.com"}
-
-# Example of adding a new link to the footer - {icon: "ion-logo-dribbble", link: "https://dribbble.com"}
-# Other icons can be found at https://ionicons.com/v4/
-
-
-#-------------------------------
-# Hero Settings
-hero:
-  hero__title: I'm Yimin Zhou
-  hero__description: Study, Computer Graphics, Games, Programming.
-  hero__image: '/images/scene/snow.png'
-
-
-#-------------------------------
-# Newsletter
-mailchimp:  # To enable the mailchimp form, use the value 'enable'. To disable the form, leave the field blank.
-mailchimp__identifier: frnla.us6.list-manage.com/subscribe/post?u=6314d69a3f315af7ce3fb00a0&amp;id=3038727cc3 # Add your MailChimp form identifier. For example - frnla.us6.list-manage.com/subscribe/post?u=6314d69a3f315af7ce3fb00a0&amp;id=3038727cc3
-mailchimp__input__text: Subscribe here
-mailchimp__button__text: Get a new tip
-
-
-#-------------------------------
-# Gallery Footer Section
-gallery:
-  gallery__title: Gallery
-  gallery__columns: 4
-  gallery__images:
-    - alt: 'Rest'
-      url: '/images/scene/2049.png'
-    - alt: 'Lifestyle'
-      url: '/images/scene/attic1.png'
-    - alt: 'Hobby'
-      url: '/images/scene/hallway.png'
-    - alt: 'Notes'
-      url: '/images/scene/snow.png'
-    - alt: 'Rest'
-      url: '/images/scene/v.png'
-    - alt: 'Hobby'
-      url: '/images/scene/attic2.png'
-    - alt: 'Fashion'
-      url: '/images/scene/stylized.png'
-    - alt: 'Notes'
-      url: '/images/scene/stylized2.png'
-
-
-#-------------------------------
-# Contact Settings
-contact:
-  email: your@email.com # Add your email for contant form
-  description: Menso comes with a built-in contact form, that you can use with Formspree service to handle up to 50 submissions per month for free. You could also easily switch to another contact form service if you want. # Add a description of your form
-
-# NOTE
-# Menso theme comes with a contact form built-in. You can use this form with Formspree (https://formspree.io/) service and get up to 50 submissions for free. Also, you can easily switch to another service if you want.
-
-
-#-------------------------------
-# Comment Section (Disqus)
-disqus-identifier: demo-menca # Add your shortname for Disqus Comment. For example demo-menca
-
-
-#-------------------------------
-# Google Analytics
-google-analytics: # Add your GA Tracking Id
-
-
-#-------------------------------
-# Build Settings
+# Build settings
+highlighter: rouge
 markdown: kramdown
-permalink: /:title
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+markdown: kramdown
+highlighter: rouge
+permalink: /:title/
+collections:
+  authors:
+    output: true
+paginate_path: "/page/:num/"
+show_get_theme_btn: false
+use_logo: false
+
+# Content paginator
+paginate_content:
+  enabled: false
+  debug: false
+  collections:
+    - posts
+  auto: false
+  separator: "--page-break--"
+  permalink: "/:num/"
+  seo_canonical: true
+  properties:
+    part:
+      is_generated: true
+    last:
+      is_generated: true
+    single:
+      is_generated: true
+
+# SASS
+sass:
+  style: compressed
+
+# Plugins
 plugins:
   - jekyll-paginate
-  - jekyll-sitemap
+  - jekyll-paginate-content
 
-paginate: 12
-paginate_path: "/page/:num"
+# Exclude my node related stuff
+exclude: [
+  'package.json',
+  'package-lock.json',
+  'src',
+  'node_modules',
+  'initpost.sh',
+  'Gemfile',
+  'Gemfile.lock',
+  'gulpfile.js',
+  'README.md'
+]
 
-# Pages Path
-defaults:
-  - scope:
-      path: '_pages'
-    values:
-      permalink: /:basename:output_ext
+# Theme
 
-
-include:
-  - _pages
-
-sass:
-  sass_dir: _sass
-  style: compressed

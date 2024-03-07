@@ -1,139 +1,134 @@
 ---
 date: 2021-02-01 23:48:05
 layout: post
-title: Anime Effect
+title: 战双效果尝试
+subtitle: 根据素材尝试还原战双卡通效果
 description: >-
-  Anime Effect in Unity
-image: assets\img\cover\punishing.gif
-tags: [project]
+  在Unity根据素材尝试还原战双卡通效果
+image: /assets/img/cover/punishing.gif
+category: 效果
+tags:
+  - shader
+  - unity
+  - archive
+
 ---
 
-## Process
+参考ShaderToy上的shader在Unity中实现雨滴效果
 
-### 1. Target effect.
+## 过程
 
--Sample ramp to get the cartoon lighting effect.
--Face, hair fixed area highlights.
--Clothing combined with PBR lighting.
--Edge light calculated with depth.
--Frontal hair projection.
--Hair and eye blending.
--Vertex flare stroke with vertex brush tool.
+### 1.目标效果：
+
+-采样ramp得到的卡通光照效果。
+-脸部，头发固定区域高光。
+-服装结合PBR光照。
+-用深度来计算的边缘光。
+-额发投影。
+-头发和眼睛融合。
+-顶点外扩描边配合顶点刷工具。
 
 
-### 2. Material analysis.
+### 2.素材分析：
 
-There are two types of AO (composite mapping) mapping.
-
-- The first type.
+有两种AO（复合贴图）贴图：
+- 第一种：
 ![](/assets/img/punishing_anime/1.png)
-
-AO mapping of the face and hair.
+脸部和头发的AO贴图。
 ![](/assets/img/punishing_anime/2.png)
+R通道是高光的mask，固定只在鼻子附近有一个三角高光。
+G通道是阴影的mask，脖子下方总是阴影（二次元是这样的）。
 
-The R channel is the mask for the highlights, fixed with only a triangular highlight near the nose.
-The G channel is the mask for shadows, always shaded below the neck (the secondary is like this).
-
--second.
+-第二种：
 ![](/assets/img/punishing_anime/3.png)
-
-AO mapping of the costume. (ilm mapping)
+服装的AO贴图。（ilm贴图）
 ![](/assets/img/punishing_anime/4.png)
-
-The G channel also shows a fixed shadow area (shadow weights).
-R should also be the highlight area, and B is the brightness of the highlight in the shadow area.
-A is the self-illumination.
-
-PBR mapping
+G通道也是显示了固定的阴影区域（阴影权重）。
+R应该也是高光区域，B是高光在阴影区域的亮度。
+A 是自发光。
+PBR贴图
 ![](/assets/img/punishing_anime/5.png)
-
-Used on dress pants, which receive PBR lighting.
+用在衣服裤子上，衣服裤子接受PBR光照。
 ![](/assets/img/punishing_anime/6.png)
+R通道是metallic.
+G通道是roughness.
+B通道是AO（pbr中真正的AO），范围很小，二次元就是要干净些。
+A通道是是否使用PBR的mask
 
-The R channel is metallic.
-G channel is roughness.
-B channel is AO (true AO in pbr), the range is very small, the secondary is to be clean.
-A channel is whether to use the PBR mask
-
-### 3. Production.
-1. edge light.
--first make a simple edge light effect (ndv), look at the effect
+### 3.制作：
+1. 边缘光：
+-先制作一个简单的边缘光效果（ndv）,看看效果
 ```
 half rim = smoothstep(_RimLightMin, _RimLightMax, 1-ndv);
 rim = smoothstep(0, _RimLightSmooth, rim);
-half3 rimColor = rim * _RimLightColor.rgb * _RimLightIntensity;
+half3 rimColor = rim * _RimLightColor.rgb *  _RimLightIntensity;
 ```
 
-2. face, body lighting.
+2. 脸部，身体光照：
 ![](/assets/img/punishing_anime/7.png)
-
--Face and body lighting is sampled using semi-Lambert lighting for ramp mapping (different ramps for face and body).
+-脸部和身体的光照是利用半兰伯特光照对于ramp贴图进行采样（脸和身体用的ramp不一样）：
 ```
 float halfLambert = ndl * _ShadowRangeAffector * 0.5 + 0.5;
 halfLambert = lerp(0.5,halfLambert, surfaceData.shadowMask * _ShadowMaskAffector);
-float4 rampControl = tex2D(_RampTexture, float2(saturate(halfLambert - _ShadowRange), 0.5)).r;
-float3 shadeLayer = lerp(_ShadowColor, surfaceData.albedo.rgb * _RampColor * _RampIntensity, rampControl);
+float4 rampControl =  tex2D(_RampTexture, float2(saturate(halfLambert - _ShadowRange), 0.5)).r;
+float3 shadeLayer = lerp(_ShadowColor,surfaceData.albedo.rgb * _RampColor * _RampIntensity, rampControl);
 ```
 
-Note: Here the sampled ramp is the sampled x-axis, mapping halfLambert 0-1.
+注：这里采样ramp是采样的X轴，映射halfLambert 0-1。
 ```
--halfLambert used to sample ramp before also subject to the previously mentioned ilm mapping in the specified shadow range of the mapping (as a way to achieve the effect of the neck has been in the shadow).
+-halfLambert用来采样ramp之前还要受之前提到的ilm贴图中规定阴影范围的贴图影响（以此达到脖子一直处于阴影的效果）。
 float3 celResult = shadeLayer * mainLight.color.rgb * _LightAffector;
 ```
 
--Finally multiply the light color and a control amount and output.
--(The face has almost no edge light)
+-最后乘上光照颜色和一个控制量然后输出。
+-（脸部几乎没有边缘光）
 
-3. Face and hair highlights.
-
--There are always some fixed parts in the Warframe game that have highlights, such as the face and hair:.
+3.脸部和头发的高光：
+-在战双游戏中始终有些固定部位有高光，如脸部和头发：
 ![](/assets/img/punishing_anime/8.png)
-
--With blinnphong highlight calculation.
+-用blinnphong高光计算：
 ```
 float3 specularResult = mainLight.color.rgb * _SpecularColor.rgb * pow(ndh, _SpecularPower);
-return specularResult * surfaceData.highLightMask;
+return  specularResult * surfaceData.highLightMask;
 ```
 
--The final return is just multiplying the highLightMask directly.
--The current effect.
+-最后返回的时候直接乘上高光mask就可以了。
+-目前效果：
 ![](/assets/img/punishing_anime/9.png)
+（衣服没用ramp，用的smoothstep, 同样是用兰伯特来进行调整）。
 
-(The clothes did not use ramp, used smoothstep, the same is used to adjust Lambert).
-
-4. Self-illumination
--ilm map's self-illumination is in the a channel.
+4.自发光
+-ilm map的自发光是在a通道。
 ```
 [HDR] _EmissionColor ("Emission color", Color) = (1,1,1,1)
 ```
--Assert an HDR color, multiply this color by the final self-luminous mask and add other results
+-申明一个HDR颜色，在最后自发光的mask乘上这个颜色再加上其他结果即可
 
-4. PBR lighting for clothing
--First apply the normal mapping in the usual way.
--PBR mapping r channel is metallicity, g is roughness, b is ao.
--Apply the previously done PBR effect code.
+4.服装的PBR光照
+-先用常规的方式应用好法线贴图。
+-PBR 贴图中r通道是金属度，g是粗糙度，b是ao。
+-套用之前做的PBR效果代码：
 ```
 float3 pbrLight = PBR(surfaceData,mainLight,N,L,V,H,ndl,ndv,hdv,ndh);
 ```
--lerp for cartoon lighting and PBR lighting using PBR's mask:
+-利用PBR的mask对卡通光照和PBR光照进行lerp:
 ```
 float3 finalResult = lerp(toonResult,pbrLight,surfaceData.mask);
 ```
--This makes a good distinction between cartoon light and PBR light.
+-这样就能很好的进行卡通光和PBR光区分。
 ```
 -#pragma shader_feature ENABLE_PBR
 ```
--Add another switch for easy testing.
--PBR lighting for this model, mainly for the pants and camera parts.
-
+-再加一个开关，方便测试。
+-这个模型主要是裤子和相机部分用的PBR光照：
 ![](/assets/img/punishing_anime/10.png)
 ![](/assets/img/punishing_anime/11.png)
 
-5. Current effect.
+5.目前效果：
 ![](/assets/img/punishing_anime/12.png)
 ![](/assets/img/punishing_anime/13.png)
 
-Another effect of the model: PBR more
+另外一个模型的效果：PBR更多
 ![](/assets/img/punishing_anime/14.png)
 
 

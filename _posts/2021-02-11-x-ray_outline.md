@@ -1,55 +1,63 @@
 ---
 date: 2021-02-11 23:48:05
 layout: post
-title: Outline with Stencil Test
+title: 通过模板测试的透视描边
+subtitle: 透视描边效果
 description: >-
-  Outline with Stencil Test in Unity
-image: assets\img\cover\xray.gif
-tags: [project]
+  在Unity中用模板测试实现的简单描边效果
+image: /assets/img/cover/xray.gif
+category: 效果
+tags:
+  - shader
+  - unity
+  - archive
+
 ---
 
-## Ideas.
-- The stencil value (Stencil Value) in the stencil buffer is usually 8 bits, so there are 256 different stencil values per fragment/pixel. The values in the stencil buffer are used during stencil testing to decide whether to discard or keep the slice elements in subsequent plots.
-- 1. turn on stencil buffer writing. 2. render the object and update the stencil buffer. 3. turn off stencil buffer writing. 4. render (other) objects, this time discarding specific fragments based on the stencil buffer contents.
-The outline is implemented by drawing two objects, the second with a slightly larger scale, and using a template test to remove the overlap with the original object to get the outline effect.
-Template tests add.
+## 原理：
+模板缓冲中的模板值(Stencil Value)通常是8位的，因此每个片段/像素共有256种不同的模板值。模板测试时利用模板缓冲中的值来决定是丢弃还是保留后续绘图中的片元。
+1.开启模板缓冲写入。2.渲染物体，更新模板缓冲。3.关闭模板缓冲写入。4.渲染（其他）物体，这次基于模板缓冲内容丢弃特定片段。
+描边实现是通过绘制两个物体，第二个物体的scale稍微大一些，并且用模板测试来去除与原物体重叠的部位，以此来得到描边效果。
+模板测试补充：
 ![](/assets/img/stencil_outline/1.png)
+Ref 2：设置参考值。除了2，还可以设置0-255的任意数。
+Comp equal：表示通过模板测试的条件。这里只有等于2的像素才算通过测试。除了equal，还有Greater、Less、Always、Never等，类似ZTest。
+Pass keep：表示通过模板测试和Z测试（注意是都通过）的像素，怎么处置它的模板值，这里我们保留它的模板值。除了keep，还有Replace，IncrWrap（循环自增1，超过255为0），IncrSat（自增1，超过255还是255），DecrWrap，DecrSat等。
+Fail decrWrap：表示没通过模板测试的像素, 怎么处置它的模板值。这里为循环自减。
+ZFail keep：表示通过了模板测试但没通过Z测试的像素，怎么处置它的模板值。这里为保持不变。
 
-- 2: Set the reference value. In addition to 2, any number from 0-255 can be set.
-Comp equal: indicates the condition to pass the template test. Here only pixels equal to 2 are considered to pass the test. In addition to equal, there are Greater, Less, Always, Never, etc., similar to ZTest.
-Pass keep: indicates the pixel that passes the template test and the Z test (note that both pass), how to dispose of its template value, here we keep its template value. In addition to keep, there are Replace, IncrWrap (loop self-incrementing 1, more than 255 for 0), IncrSat (self-incrementing 1, more than 255 or 255), DecrWrap, DecrSat, etc.
-Fail decrWrap: indicates the pixel that does not pass the template test, what to do with its template value.self-decrease.
-ZFail keep: the pixel which passed the template test but not the Z test, what to do with its template value.
-
-## Process. 
-### 1. Set the first pass that renders the actual object.
+## 制作： 
+### 1. 设置第一个渲染实际物体的pass：
 ![](/assets/img/stencil_outline/2.png)
-comp set to always means always pass.
-If pass is replace, then pixels that pass both stencil and depth will replace the value in the stencil buffer with their reference stencil value.
-zfail is also replace, so that even if the object is occluded, base needs to block the outline.
+comp设置为always代表永远通过。
+pass 为 replace的话，那都模板和深度都通过的像素，会用其参考模板值替换模板buffer中的值。
+zfail也为replace，这样的话就算物体被遮挡，base也需要挡住描边。
 
-### 2. The first pass would just set a simple color output of. 
+### 2.第一个pass就只设置一个简单的颜色输出： 
 ![](/assets/img/stencil_outline/3.png)
 
-### 3. outline Pass. 
+### 3.描边Pass： 
 ![](/assets/img/stencil_outline/4.png)
-Set the stencil comp of the stencil pass to notequal, so that it will not show up when overwritten with the body.
-Add the outline for the vertices, and you have a outlined effect: ````.
+讲描边pass的stencil comp设置为 notequal,这样在和本体覆盖的时候不会显示出来。
+再加上对于顶点的外扩，就可以做出一个描边的效果啦：
 
 ```
 output.positionCS = TransformObjectToHClip(float4(input.positionOS + input.normalOS * _OutlineWidth * 0.1 ,1));
 ```
 
-Two identical objects will not have inner outline.
+两个相同物体不会出现内描边的情况。
 ![](/assets/img/stencil_outline/5.png)
 
-### 4. Perspective. 
-The default template value is 0. Theoretically this outline will be displayed again at the top of all objects.
-But because the rendering order will be obscured by some opaque objects. So add a tag for the rendering queue of transparent objects: !
+### 4.透视： 
+默认的模板值是0，理论上这个描边会显示再所有物体最前面，
+但因为渲染顺序会被一些不透明物体遮挡。所以加上一个tag，进行透明物体的渲染队列：
 ![](/assets/img/stencil_outline/6.png)
 
-### 5. Result:
- This gives a simple effect:
+### 5.结果:
+ 这样就有一个简单的透视描边效果啦：
 ![](/assets/img/stencil_outline/7.gif)
 
+### 参考:
+1.描边效果：https://zhuanlan.zhihu.com/p/67466642
+2.模板缓存：https://zhuanlan.zhihu.com/p/28506264
 ---

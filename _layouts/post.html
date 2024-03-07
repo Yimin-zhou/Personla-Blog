@@ -1,113 +1,168 @@
----
-layout: default
----
+<!DOCTYPE html>
+<!-- <link rel="stylesheet" href="/assets/css/syntax.css"> -->
 <link rel="stylesheet"
-      href="/highlight/styles/default.min.css">
+      href="/highlight/styles/atom-one-dark-reasonable.min.css">
 <script src="/highlight/highlight.min.js"></script>
 <script>hljs.highlightAll();</script>
+<html lang="{{ site.language }}" class="no-js">
+    {% include head.html %}
+    <body class="has-push-menu">
+        {% include minutes-to-read.html %}
+        {% include svg-icons.html %}
+        {% include header.html %}
 
-<div class="post-head">
-  <div class="container">
-    <div class="row">
-      
-      {% if page.video_embed %}
-      <div class="col col-12">
-        <div class="post-video">
-          <div class="post-video__wrap">
-            <iframe src="{{ page.video_embed }}" loading="lazy" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-          </div>
-        </div>
-      </div>
-      {% else %}
+        <section class="post {% if site.two_columns_layout %}two-columns{% else %}one-column{% endif %}">
+            <article role="article" class="post-content">
+                <p class="post-info">
+                    {% if page.date %}
+                        <svg class="icon-calendar" id="date"><use xlink:href="#icon-calendar"></use></svg>
+                        <time class="date" datetime="{{ page.date | date_to_xmlschema }}">
+                            {% include date.html date=page.date %}
+                        </time>
+                    {% endif %}
+                    <svg id="clock" class="icon-clock"><use xlink:href="#icon-clock"></use></svg>
+                    <span>{{ minutesText }}</span>
+                </p>
+                <h1 class="post-title">{{ page.title }}</h1>
+                <p class="post-subtitle">{{ page.subtitle }}</p>
 
-      {%if page.image %}
-      <div class="col col-6 col-d-12">
-        <div class="post-image">
-          <img class="lazy" data-src="{{site.baseurl}}{{page.image}}" alt="{{page.title}}">
-        </div>
-      </div>
-      {%endif %}
+                {% if page.image and paginator.activated == nil %}
+                    <img src="{{ page.image }}" alt="Featured image" class="post-cover">
+                {% endif %}
 
-      {% endif %}
-      
-      {% if page.video_embed %} {% assign videoInfo = 'post__info-video' %} {% endif %}
-      <div class="col {% if page.video_embed %}col-12{% else %}col-6 col-d-12{% endif %}">
-        <div class="post__info {{videoInfo}}">
-  
-          {% if page.tags.size >= 1 %}
-            <div class="post__tags">
-              {% for tag in page.tags %}
-                <a href="{{ site.baseurl }}/tags#{{ tag }}" class="post__tag">{{ tag }}</a>
-              {% endfor %}
-            </div>
-          {% endif %}
-  
-          <h1 class="post__title">{{ page.title | escape }}</h1>
-  
-          <div class="post__meta">
-            <a href="{{site.baseurl}}/about/" class="post__author-image">
-              <img class="lazy" data-src="{{site.author.author__avatar}}" alt="{{site.author.author__name}}">
-            </a>
+                {% include pagination-post.html progressBar=true %}
 
-            <div class="post__meta-bottom">
-              <a class="post__author" href="{{site.baseurl}}/about/">{{site.author.author__name}}</a>
-              <time class="post__date" datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date_to_string }}</time>
-            </div>
-          </div>
-  
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+                {% include toc.html %}
 
-<!-- begin post -->
-<div class="container animate">
+                {{ content }}
 
-  <article class="post">
+                {% include pagination-post.html %}
+            </article>
 
-    <div class="post__content">
-      {{ content }}
-    </div>
+            {% if site.two_columns_layout %}
+                <aside class="see-also">
+                    <h2>{{ site.translations.text.see_also | default: "See also" }}</h2>
+                    <ul>
+                        {% assign next_posts = site.posts | where_exp:"post","post.is_generated != true" | where_exp:"post","post.path != page.path" %}
+                        {% assign shuffled_array = next_posts | shuffle %}
+                        {% for post in shuffled_array limit:3 %}
+                            <li>
+                                <a href="{{ post.url | prepend: site.baseurl }}">
+                                    {% if post.optimized_image %}
+                                        <img src="{{ post.optimized_image }}">
+                                    {% elsif post.image %}
+                                        <img src="{{ post.image }}">
+                                    {% else %}
+                                        <img src="/assets/img/off.jpg">
+                                    {% endif %}
+                                    <h3>{{ post.title }}</h3>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </aside>
+            {% endif %}
 
-    <div class="post__share">
-      <ul class="share__list list-reset">
-        <li class="share__item">
-          <a class="share__link share__twitter"
-            href="https://twitter.com/intent/tweet?text={{ page.title | uri_escape }}&url={{ site.url }}{{ site.baseurl }}{{ page.url }}"
-            onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
-            title="Share on Twitter" rel="nofollow"><i class="ion ion-logo-twitter"></i></a>
-        </li>
-        <li class="share__item">
-          <a class="share__link share__facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ site.baseurl }}{{ page.url }}"
-            onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
-            title="Share on Facebook" rel="nofollow"><i class="ion ion-logo-facebook"></i></a>
-        </li>
-        <li class="share__item">
-          <a class="share__link share__pinterest" href="http://pinterest.com/pin/create/button/?url={{ site.url }}{{ page.url }}&amp;media={{ site.url }}{{ site.baseurl }}{{ page.image }}&amp;description={{ page.title | uri_escape }}"
-          onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=900,height=500,toolbar=1,resizable=0'); return false;" title="Share on Pinterest"
-          rel="nofollow"><i class="ion ion-logo-pinterest"></i></a>
-        </li>
-        <li class="share__item">
-          <a class="share__link share__linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ site.baseurl }}{{ page.url }}&title={{ page.title | uri_escape }}&summary={{ page.description | uri_escape }}&source={{ site.title | uri_escape }}"
-          onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn" rel="nofollow"><i class="ion ion-logo-linkedin"></i></a>
-        </li>
-      </ul>
-    </div>
+        </section>
 
+        <!-- Add time bar only for pages without pagination -->
+        {% if paginator.activated == nil and site.show_time_bar == true %}
+            {% include time-bar.html %}
+            {% include recommendation.html %}
+        {% endif %}
 
-  </article>
-</div>
-<!-- end post -->
+        <!-- Show modal if the post is the last one -->
+        {% if paginator.is_last and site.show_modal_on_finish_post %}
+            {% include modal.html title="You made it!" subtitle="Why don't you try another?" %}
+        {% endif %}
 
-{% include related-posts.html %}
+        <!-- Show modal before user leaves the page -->
+        {% if site.show_modal_on_exit %}
+            {% include modal.html title="Don't go yet!" subtitle="You may also like..." closed=true showOnExit=true %}
+        {% endif %}
 
-{% if site.disqus-identifier %}
-  <div class="container">
-    <div class="row">
-      <div class="col col-12">
-        {% include disqus-comments.html %} 
-      </div>
-    </div>
-  </div>
-{% endif %}
+        {% include subscription.html %}
+        {% include comments.html %}
+        {% include footer.html %}
+
+        {% assign author = site.authors | where: "name", post.author | first %}
+
+        {% assign author_urls = '' %}
+        {% if author.github_username %}
+            {% assign author_urls = author_urls | append: '"https://github.com/' | append: author.github_username | append: '",' %}
+        {% endif %}
+        {% if author.facebook_username %}
+            {% assign author_urls = author_urls | append: '"https://www.facebook.com/' | append: author.facebook_username | append: '",' %}
+        {% endif %}
+        {% if author.twitter_username %}
+            {% assign author_urls = author_urls | append: '"https://twitter.com/' | append: author.twitter_username | append: '",' %}
+        {% endif %}
+        {% if author.medium_username %}
+            {% assign author_urls = author_urls | append: '"https://medium.com/@' | append: author.medium_username | append: '",' %}
+        {% endif %}
+        {% if author.instagram_username %}
+            {% assign author_urls = author_urls | append: '"https://www.instagram.com/' | append: author.instagram_username | append: '",' %}
+        {% endif %}
+        {% if author.linkedin_username %}
+            {% assign author_urls = author_urls | append: '"https://www.linkedin.com/in/' | append: author.linkedin_username | append: '",' %}
+        {% endif %}
+        {% if page.math %}
+        <script>
+            MathJax = {
+                tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+        </script>
+        {% endif %}
+        <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "BlogPosting",
+            "name": "{{ page.title }}",
+            "headline": "{{ page.subtitle }}",
+            "description": "{{ page.description }}",
+            "image": "{{ page.image }}",
+            "url": "{{ page.url | prepend: site.baseurl | prepend: site.url }}",
+            "articleBody": "{{ content | strip_html | xml_escape | textilize }}",
+            "wordcount": "{{ content | number_of_words }}",
+            "inLanguage": "{{ site.language }}",
+            "dateCreated": "{{ page.date | date: '%Y-%m-%d/' }}",
+            "datePublished": "{{ page.date | date: '%Y-%m-%d/' }}",
+            "dateModified": "{{ page.date | date: '%Y-%m-%d/' }}",
+            "author": {
+                "@type": "Person",
+                "name": "{{ author.display_name }}",
+                {% if author.photo %}
+                "image": "{{ author.photo }}",
+                {% else %}
+                "image": {{ "/assets/img/user.jpg" | prepend: site.baseurl | prepend: site.url }},
+                {% endif %}
+                "jobTitle": "{{ author.position }}",
+                "url": "{{ author.url | prepend: site.baseurl | prepend: site.url }}",
+                "sameAs": [
+                    {{ author_urls | split: "," | join: "," }}
+                ]
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "{{ site.name }}",
+                "url": "{{ site.url }}{{site.baseurl}}/",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "{{ site.url }}{{site.baseurl}}/assets/img/blog-image.png",
+                    "width": "600",
+                    "height": "315"
+                }
+            },
+            "mainEntityOfPage": "True",
+            "genre": "{{ page.category }}",
+            "articleSection": "{{ page.category }}",
+            "keywords": [{{ page.tags | join: '","' | append: '"' | prepend: '"' }}]
+        }
+        </script>
+    </body>
+</html>
