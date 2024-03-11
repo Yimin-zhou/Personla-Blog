@@ -31,7 +31,7 @@
 
 .post-content {
   overflow-x: auto;
-  padding: rem(40px) 0;
+  padding: rem(20px) 0;
 
   &.fullwidth {
     padding: rem(100px) rem(10px) 0;
@@ -68,15 +68,15 @@
   iframe {
     @include center(rem(800px));
     @include mainFont(400);
-    font-size: rem(17px);
-    line-height: rem(30px);
+    font-size: rem(14px);
+    line-height: rem(15px);
     letter-spacing: 0.025rem;
     padding: 0 rem(20px);
     margin: rem(20px) auto 0;
 
     @include media(">=sm") {
-      font-size: rem(20px);
-      line-height: rem(40px);
+      font-size: rem(16);
+      line-height: rem(35);
       margin: rem(29px) auto 0;
     }
   }
@@ -89,12 +89,12 @@
 
   p.post-subtitle {
     color: darken($lightGray, 30%);
-    font-size: rem(17px);
+    font-size: rem(15px);
     margin: rem(10px) auto;
     line-height: 1.6;
 
     @include media(">=sm") {
-      font-size: rem(20px);
+      font-size: rem(18px);
     }
   }
 
@@ -195,37 +195,37 @@
     }
   }
   h1 {
-    font-size: rem(36px);
+    font-size: rem(34px);
     line-height: 1.4;
     @include media(">=sm") {
-      font-size: rem(50px);
+      font-size: rem(48px);
     }
   }
 
   h2 {
-    font-size: rem(28px);
+    font-size: rem(26px);
     line-height: 1.4;
 
     @include media(">=sm") {
-      font-size: rem(37px);
+      font-size: rem(35px);
     }
   }
 
   h3 {
-    font-size: rem(22px);
+    font-size: rem(20px);
     line-height: 1.4;
 
     @include media(">=sm") {
-      font-size: rem(27px);
+      font-size: rem(25px);
     }
   }
   ul,
   ol {
-    padding-left: rem(60px);
+    padding-left: rem(58px);
   }
 
   ul.post-list {
-    padding: 0 rem(20px);
+    padding: 0 rem(18px);
 
     @include media(">=sm") {
       padding: 0;
@@ -246,11 +246,11 @@
     }
 
     p {
-      font-size: rem(17px);
+      font-size: rem(15px);
       color: rgba(0, 0, 0, 0.6);
       margin: 0;
       @include media(">=sm") {
-        font-size: rem(20px);
+        font-size: rem(18px);
       }
     }
   }
