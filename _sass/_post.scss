@@ -31,7 +31,7 @@
 
 .post-content {
   overflow-x: auto;
-  padding: rem(20px) 0;
+  padding: rem(40px) 0;
 
   &.fullwidth {
     padding: rem(100px) rem(10px) 0;
@@ -75,9 +75,9 @@
     margin: rem(20px) auto 0;
 
     @include media(">=sm") {
-      font-size: rem(20px);
-      line-height: rem(40px);
-      margin: rem(29px) auto 0;
+      font-size: rem(15px);
+      line-height: rem(30px);
+      margin: rem(20px) auto 0;
     }
   }
 
@@ -139,7 +139,7 @@
     color: $texts;
 
     // code {
-    //   font-size: rem(15px);
+    //   font-size: rem(10px);
     //   background: #dadada;
     //   color: #fff;
     //   word-wrap: break-word;
@@ -147,7 +147,7 @@
     //   border-radius: 3px;
 
     //   @include media(">=sm") {
-    //     font-size: rem(17px);
+    //     font-size: rem(5px);
     //   }
     // }
   }
@@ -187,7 +187,7 @@
   h6 {
     @include mainFont(700);
     margin-top: 0;
-    padding-top: rem(50px);
+    padding-top: rem(25px);
 
     @include media(">=sm") {
       margin-top: 0;
@@ -198,7 +198,7 @@
     font-size: rem(36px);
     line-height: 1.4;
     @include media(">=sm") {
-      font-size: rem(50px);
+      font-size: rem(45px);
     }
   }
 
@@ -263,6 +263,9 @@
 
   pre {
     overflow-x: auto;
+    font-size: 0.8em; /* Smaller font size */
+    padding: 5px 10px; /* Reduced padding */
+    line-height: 1.2; /* Tighter line height */
   }
 
   table {
