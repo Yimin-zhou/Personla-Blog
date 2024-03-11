@@ -31,7 +31,7 @@
 
 .post-content {
   overflow-x: auto;
-  padding: rem(40px) 0;
+  padding: rem(20px) 0;
 
   &.fullwidth {
     padding: rem(100px) rem(10px) 0;
@@ -68,8 +68,8 @@
   iframe {
     @include center(rem(800px));
     @include mainFont(400);
-    font-size: rem(17px);
-    line-height: rem(30px);
+    font-size: rem(14px);
+    line-height: rem(15px);
     letter-spacing: 0.025rem;
     padding: 0 rem(20px);
     margin: rem(20px) auto 0;
