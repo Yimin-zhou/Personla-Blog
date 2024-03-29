@@ -111,8 +111,8 @@
   .box-body {
     img {
       object-fit: cover;
-      width: 270px;
-      height: 159.6px;
+      width: 270px * 1.1;
+      height: 159.6px * 1.1;
       margin: 0 auto;
       transition: all 0.2s ease-in-out;
     }
