@@ -32,7 +32,7 @@ two_columns_layout: false
 
 
 # Advanced Settings
-url: "43.154.75.179:4000" # the base hostname & protocol for your site
+url: https://fries.pub # the base hostname & protocol for your site
 baseurl: "" # the subpath of your site, e.g. /blog
 google_analytics: "UA-XXXXXXXX-X"
 language: "en"
