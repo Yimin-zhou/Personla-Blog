@@ -1,34 +1,30 @@
 # Site Settings
 name: Yimin's-Tech-Art
-title: Fries Tech
-description: I'm Yimin Zhou. You can find my portfolio and blogs here.
+title: Yimin-技术美术
+# description: I'm Yimin Zhou. You can find my portfolio and blogs here.
 tags:
   - blog
   - TA
   - Technical art
-show_hero: true
+show_hero: false
 menu:
   - title: Home
     url: /
-  - title: Shader
-    url: /tags/#shader
-  - title: Unity
-    url: /tags/#unity
-  - title: Unreal
-    url: /tags/#unreal
-  - title: 3D Environment
-    url: /tags/#environment
-  - title: 3D Model
-    url: /tags/#modelling
-  - title: About
+  - title: 渲染
+    url: /category/rendering
+  - title: 场景
+    url: /category/scene
+  - title: 游戏
+    url: /category/game
+  - title: 关于我
     url: /about
 
 
 # Posts Settings
 show_time_bar: false
 show_modal_on_exit: false
-show_modal_on_finish_post: true
-two_columns_layout: false
+show_modal_on_finish_post: false
+two_columns_layout: true
 
 
 # Advanced Settings

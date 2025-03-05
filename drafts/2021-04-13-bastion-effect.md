@@ -6,11 +6,8 @@ subtitle: 物体从消失到出现的特效
 description: >-
   在Unreal实现的物体组装特效
 image: /assets/img/cover/iron.gif
-category: 效果
-tags:
-  - shader
-  - unreal
-  - archive
+category: 渲染
+hidden: true
 
 ---
 # 目标效果：

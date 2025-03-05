@@ -6,11 +6,8 @@ subtitle: 风格化草地的简单实现
 description: >-
   草地
 image: /assets/img/cover/grass.gif
-category: 效果
-tags:
-  - shader
-  - unreal
-  - archive
+category: 渲染
+hidden: true
 
 ---
 # 目标效果：

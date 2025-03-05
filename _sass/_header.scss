@@ -6,14 +6,16 @@ body {
 .bar-header {
   background-color: $primaryDark;
   padding: rem(10px) rem(15px);
+  padding-left: rem(50px);  // Add left padding
   position: fixed;
-  left: 0;
+  left: 50;
   width: 100%;
   z-index: 10;
   transition: top 0.5s, left 0.3s ease, background-color 0.5s, box-shadow 0.5s;
   
   @include media(">=sm") {
     padding: rem(15px) rem(0px);
+    padding-left: rem(50px);  // Add left padding
   }
 
   .logo {

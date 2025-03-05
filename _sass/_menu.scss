@@ -4,6 +4,80 @@
   box-sizing: border-box;
 }
 
+.menu {
+  @include mainFont(400);  // 添加默认字体
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $primaryDark;
+  z-index: 100;
+  font-weight: 100;
+  
+  .menu-content {
+    padding: 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;  // Add this to center menu items
+    align-items: center;      // Add this to vertically center items
+    
+    a {
+      @include mainFont(600);  // 为链接添加字体
+      color: $accentDark;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      font-size: rem(16px);  // 添加字体大小
+      text-align: center;     // Add this to center text within links
+      
+      &:hover {
+        background-color: $themeColor;
+        color: #fff;
+        @include mainFont(800);  // hover 状态加粗
+      }
+      
+      &.active {
+        background-color: $themeColor;
+        color: #fff;
+        @include mainFont(800);  // 当前活动项加粗
+      }
+    }
+  }
+}
+
+
+// 为了防止内容被固定菜单遮挡
+body {
+  padding-top: 60px; // 调整此值以匹配菜单高度
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .menu {
+    .menu-content {
+      flex-direction: row;  // Change to row for horizontal layout
+      flex-wrap: wrap;      // Allow wrapping
+      padding: 0.3rem;      // Reduce padding
+      gap: 0.3rem;         // Reduce gap between items
+      
+      a {
+        width: auto;       // Auto width instead of 100%
+        padding: 0.3rem 0.6rem; // Reduce padding
+        font-size: rem(14px);   // Slightly smaller font
+        margin: 0;              // Remove margin
+      }
+    }
+  }
+  
+  body {
+    padding-top: 80px;    // Reduce top padding for mobile
+  }
+}
+
 body.has-push-menu,
 body.has-push-menu aside,
 body.has-push-menu .progress-bar {

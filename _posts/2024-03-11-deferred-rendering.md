@@ -5,7 +5,7 @@ description: >-
   一个在OpenGL中实现的简单的延迟渲染管线。
 image: '/assets/img/deferred/1.jpg'
 category: 渲染
-tags: [opengl]
+
 ---
 
 在我的渲染器中我实现了一个延迟渲染pipeline. 在通常的前向渲染中，每一个需要渲染的物体都会对每一个光源每一个需要渲染的片段进行迭代，渲染的复杂度就是`O(Lights ∗ Objects)`, 传统的前向渲染中被遮挡的像素会在已经被渲染后才剔除，造成严重的overdraw[^1]. 前向渲染中不同的材质需要不同的shader（延迟渲染可以通过材质ID在同一个shader中渲染不同的材质）。

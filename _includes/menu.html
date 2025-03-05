@@ -1,6 +1,11 @@
-<aside class="sidebar" id="sidebar">
-    <nav id="navigation">
-      <h2>Menu</h2>
-      {% include links.html %}
-    </nav>
-</aside>
+<nav class="menu">
+  <div class="menu-content">
+      {% for item in site.menu %}
+          {% assign current_path = page.url | remove: 'index.html' %}
+          <a href="{{ site.baseurl }}{{ item.url }}" 
+             class="{% if current_path contains item.url and item.url != '/' %}active{% endif %}{% if current_path == '/' and item.url == '/' %}active{% endif %}">
+              {{ item.title }}
+          </a>
+      {% endfor %}
+  </div>
+</nav>
