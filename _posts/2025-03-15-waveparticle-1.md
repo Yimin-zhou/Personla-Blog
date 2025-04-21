@@ -92,28 +92,28 @@ Gradient用来做之后的法线贴图，要同时考虑水平和垂直的gradie
 ```c++
 for(int dx = -r; dx <= r; dx++)
 {
-  // looping and avoid negative value
-  int PixelX = (RTCoord.x + Res + dx) % (Res);
-  float amplitude = (float)InputPositionMapRT[int2(PixelX, RTCoord.y) + quadrantOffset] / 100.0f;
+	// looping and avoid negative value
+	int PixelX = (RTCoord.x + Res + dx) % (Res);
+	float amplitude = (float)InputPositionMapRT[int2(PixelX, RTCoord.y) + quadrantOffset] / 100.0f;
 
-  // x
-  float weightX = 0.5 * (cos(PI * dx / r) + 1) * (abs(dx) <= r ? 1 : 0);
-  float dz = weightX * amplitude;
+	// x
+	float weightX = 0.5 * (cos(PI * dx / r) + 1) * (abs(dx) <= r ? 1 : 0);
+	float dz = weightX * amplitude;
 
-  // H Deviation
-  float dxx = -HDLevelParams[quadrant].Beta * sin(PI * dx / r) * (cos(PI * dx / r) + 1) * (abs(dx) <= r ? 1 : 0);
-  float dyx = 0.25 * pow(cos(PI * dx / r) + 1, 2) * (abs(dx) <= r ? 1 : 0);
-  
-  sum.x += dxx * amplitude * HDLevelParams[quadrant].LongitudinalDirectionAmount.x;
-  sum.y += dyx * amplitude * HDLevelParams[quadrant].LongitudinalDirectionAmount.y;
-  sum.z += dz;
+	// H Deviation
+	float dxx = HDLevelParams[quadrant].Beta * sin(PI * dx / r) * (cos(PI * dx / r) + 1) * (abs(dx) <= r ? 1 : 0);
+	float dyx = 0.25 * pow(cos(PI * dx / r) + 1, 2) * (abs(dx) <= r ? 1 : 0);
+	
+	sum.x += dxx * amplitude * HDLevelParams[quadrant].LongitudinalDirectionAmount.x;
+	sum.y += dyx * amplitude * HDLevelParams[quadrant].LongitudinalDirectionAmount.y;
+	sum.z += dz;
 
-  // H Gradient
-  float hxx =  -0.5 * (cos(2 * PI * dx / r) + cos(PI * dx / r)) * (PI / r) * HDLevelParams[quadrant].LongitudinalDirectionAmount.x; // For HDeviation
-  float hyx = 0.25 * pow(cos(PI * dx / r) + 1, 2)  * HDLevelParams[quadrant].LongitudinalDirectionAmount.x;
-  float gxx =  -HDLevelParams[quadrant].Beta * sin(PI * dx / r) * (PI / r) * amplitude;
-  float gyx = 0.5 * (cos(PI * dx / r) + 1)  * amplitude;
-  sum_gradient += float4(hxx, hyx, gxx, gyx);
+	// H Gradient
+	float hxx =  HDLevelParams[quadrant].Beta * (cos(2 * PI * dx / r) + cos(PI * dx / r)) * (PI / r) * HDLevelParams[quadrant].LongitudinalDirectionAmount.x; // For HDeviation
+	float hyx = 0.25 * pow(cos(PI * dx / r) + 1, 2)  * HDLevelParams[quadrant].LongitudinalDirectionAmount.x;
+	float gxx =  -0.5 * sin(PI * dx / r) * (PI / r) * amplitude;
+	float gyx = 0.5 * (cos(PI * dx / r) + 1)  * amplitude;
+	sum_gradient += float4(hxx, hyx, gxx, gyx);
 }
 ```
 
