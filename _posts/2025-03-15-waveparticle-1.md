@@ -143,5 +143,7 @@ void ComputeNormalCS(uint3 DispatchId : SV_DispatchThreadID)
 ![](/assets/img/waveparticle/5056fe184994731d8bc4a449acc86d21.png)
 
 ### 结果
-调试每层的参数，同时又高频和低频细节，先用着UE的水材质，之后会重新做一个。![](/assets/img/waveparticle/5dc0ad5ae81aef62e705424fe02b2ad2.png)![](/assets/img/waveparticle/cdf5d4f3827076c7bca12c1838809f5f.gif)
+调试每层的参数，同时又高频和低频细节，先用着UE的水材质，之后会重新做一个。
+使用512分辨率的RT，粒子数量10000+，GPU占用在0.23ms左右。
+![](/assets/img/waveparticle/5dc0ad5ae81aef62e705424fe02b2ad2.png)![](/assets/img/waveparticle/cdf5d4f3827076c7bca12c1838809f5f.gif)
 ---
