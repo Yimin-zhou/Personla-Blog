@@ -16,6 +16,8 @@ menu:
     url: /category/scene
   - title: 游戏
     url: /category/game
+  - title: 学习
+    url: /category/learning
   - title: 关于我
     url: /about
 
