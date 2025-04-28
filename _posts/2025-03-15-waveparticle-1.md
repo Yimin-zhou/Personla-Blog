@@ -8,7 +8,7 @@ image: '/assets/img/waveparticle/water.gif'
 category: 渲染
 ---
 ### Wave Particle
-- 将一个水波看作一个Particle（一定半径内）
+- 将一个水波看作一个Particle（一个波只影响一定半径内范围）。
 - Wave Particle的特点是更能表现局部的细节水流，能将多层不同频率的水波结合到一起。
 - 对于河流，海洋的表现良好。
 - 本质上也是用sin和cos在水平和垂直方向同时做位移，生成尖锐或者平滑的波形。
