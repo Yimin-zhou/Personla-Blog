@@ -24,7 +24,7 @@ category: 渲染
 	1. 使用Compute Shader，对每一个Render Target的像素进行计算，计算所有粒子对每个像素的影响，最后得到Displacement储存到RT上。
 		- 这样计算的话时间复杂度就是O(n*m)，相当于每一个像素都要计算每一个粒子，粒子数量多的话性能很差。
 		- 法线不好算。
-	2. 使用Compute Shader，多Pass计算，先储存粒子的位置和Amplitud，再用卷积核的方式计算波形。
+	2. 使用Compute Shader，多Pass计算，先储存粒子的位置和Amplitude，再用卷积核的方式计算波形。
 		- 效率高。
 		- 论文中的做法，有公式可以直接参考。
 	我首先尝试了第一种方法，性能不好，算出来的法线也有些问题。最后采用了第二种方法。
@@ -107,7 +107,7 @@ $$d_{y}^{Y}(y) = -\frac{1}{2} \sin\left( \frac{\pi y}{r} \right) (\cos\left( \fr
 
 $$d_{y}^{X}(x) = \frac{1}{4} (\cos\left( \frac{\pi x}{r} \right) + 1)^2 \prod\left( \frac{x}{2r} \right)$$
 
-因为水平的两个方向都要在U和V方向做计算，这里使用dXx和dYx。同时对于dXx和dXy,将1/2替换为用户可以设定的值beta（0-1），这样的话就可以控制波的尖锐程度。同时用一个参数控制水平位移的强度。
+因为水平的两个方向都要在U和V方向做计算，这里使用dXx和dYx。同时对于影响水平分量的公式,将sin/cos前方乘的公式中的amplitude替换为用户可以设定的值beta（0-1），这样的话就可以控制波的尖锐程度。同时用一个参数控制水平位移的强度。
 
 ###### Gradient
 Gradient用来做之后的法线贴图，要同时考虑水平和垂直的gradient，也是使用作者提供的近似卷积核。
