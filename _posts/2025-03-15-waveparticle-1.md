@@ -1,7 +1,7 @@
 ---
 
 layout: post
-title: WaveParticle 水体渲染
+title: WaveParticle 水体渲染：波形渲染
 description: >-
   生成高低频波浪，模拟水面。
 image: '/assets/img/waveparticle/water.gif'
@@ -147,7 +147,7 @@ for(int dx = -r; dx <= r; dx++)
 ![](/assets/img/waveparticle/a5c74512e14b9337bf5ada243b421798.png)
 
 ##### 4.处理法线贴图
-最后将Gradient作为法线的xy，再处理一下负值，就能得到法线了：
+最后将Gradient作为法线的xy，再处理一下负值(也可以不用，这样之后可以在UE材质里直接使用)，就能得到法线了：
 
 ```c++
 [numthreads(THREADS_X, THREADS_Y, THREADS_Z)]  
