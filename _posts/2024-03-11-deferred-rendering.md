@@ -15,10 +15,10 @@ category: 渲染
 在Geometry pass中不需要对几何材质信息做过多的处理，在shader中可以同时存入MRT（multi render target），也就是Gbuffer的附件（attachment）贴图中。注意在Opengl中attachment的index和shader中的index需要对应，比如position attachment的index是0，在shader中的location也要是0：`layout (location = 0) out vec4 gWorlPos;`
 ### G-Buffer:
 G缓冲(G-buffer)是对所有用来储存光照相关的数据，并在最后的光照处理阶段中使用的所有纹理的总称。在OpenGL中我们创建一个Frame buffer object并且绑定多个渲染目标（贴图），其中包括世界坐标位置，世界坐标法线，Albedo，粗糙度金属度AO，自发光，深度模板值。其中深度模板需要是`GL_DEPTH_STENCIL_ATTACHMENT` 其他要作为 `GL_COLOR_ATTACHMENT`。GBuffer预览：
-				![](/assets/img/deferred/2.png)
+				![](/assets/img/deferred/3.png)
 为了内存对齐，所有的贴图都采用的RGBA格式，其中位置和法线信息使用更高精度的32float，albedo和粗糙度金属度AO采用8位int（本身就是从8bit的贴图读取的，足够了）。
 ### Lighting pass
-在光照处理阶段我们只需要采样geometry pass生成的几何材质信息贴图就可以得到光照计算的所有信息，同时再采样上一篇提到的PBR需要的预计算贴图，我们就可以和前向渲染一样进行PBR光照渲染。这里我是把最后的结果渲染到了一个屏幕大小的quad上。结果和前向渲染相同：![](/assets/img/deferred/3.png)
+在光照处理阶段我们只需要采样geometry pass生成的几何材质信息贴图就可以得到光照计算的所有信息，同时再采样上一篇提到的PBR需要的预计算贴图，我们就可以和前向渲染一样进行PBR光照渲染。这里我是把最后的结果渲染到了一个屏幕大小的quad上。结果和前向渲染相同：![](/assets/img/deferred/2.png)
 
 ### 延迟渲染优缺点
 #### 优点：
