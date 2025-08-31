@@ -2,10 +2,14 @@
   @include mainFont(400);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: rem(60px);  // 增加顶部padding避免被菜单遮挡
+  padding-top: 90px;  // 适应响应式菜单的基础padding
 
   @include media(">=sm") {
-    padding-top: rem(70px);  // 增加顶部padding避免被菜单遮挡
+    padding-top: 120px;  // 桌面端更高的菜单需要更多空间
+  }
+
+  @include media("<sm") {
+    padding-top: 75px;  // 移动端更低的菜单需要较少空间
   }
 
   &.no-padding {

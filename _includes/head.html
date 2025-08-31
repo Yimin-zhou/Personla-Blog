@@ -108,6 +108,25 @@
     <!-- JavaScript enabled/disabled -->
     <script>
         document.querySelector('html').classList.remove('no-js');
+        
+        // Dynamic menu height adaptation
+        function adjustContentForMenu() {
+            const menu = document.querySelector('.menu');
+            if (menu) {
+                const menuHeight = menu.offsetHeight;
+                document.documentElement.style.setProperty('--menu-height', menuHeight + 'px');
+                
+                // Apply to home content
+                const homeElement = document.querySelector('.home');
+                if (homeElement) {
+                    homeElement.style.paddingTop = (menuHeight + 20) + 'px';
+                }
+            }
+        }
+        
+        // Run on load and resize
+        window.addEventListener('load', adjustContentForMenu);
+        window.addEventListener('resize', adjustContentForMenu);
     </script>
 
     <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->

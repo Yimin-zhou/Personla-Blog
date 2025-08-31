@@ -16,10 +16,19 @@
   border-bottom: 2px solid #007acc;
   
   .menu-content {
-    padding: 0.5rem rem(15px);
+    padding: 0.8rem rem(15px);  // 增加基础padding
     width: 100%;
     display: flex;
     align-items: center;
+    
+    // 响应式padding
+    @include media(">=sm") {
+      padding: 1rem rem(20px);  // 桌面端更多padding
+    }
+    
+    @include media("<sm") {
+      padding: 0.6rem rem(10px);  // 移动端较少padding
+    }
     
     .menu-logo {
       margin-right: auto;
@@ -28,8 +37,17 @@
         @include mainFont(700);
         color: $accentDark;
         text-decoration: none;
-        font-size: rem(30px);
+        font-size: rem(24px);  // 减小基础字体
         font-weight: bold;
+        
+        // 响应式字体大小
+        @include media(">=sm") {
+          font-size: rem(32px);  // 桌面端更大字体
+        }
+        
+        @include media("<sm") {
+          font-size: rem(20px);  // 移动端更小字体
+        }
         
         &:hover {
           color: lighten($accentDark, 10%);
@@ -41,20 +59,40 @@
     .menu-items {
       display: flex;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 0.8rem;  // 稍微减少间距
       align-items: center;
       justify-content: center;
       flex: 1;
+      
+      // 响应式间距
+      @include media(">=sm") {
+        gap: 1.2rem;  // 桌面端更大间距
+      }
+      
+      @include media("<sm") {
+        gap: 0.5rem;  // 移动端更小间距
+      }
       
       a {
         @include mainFont(600);
         color: $accentDark;
         text-decoration: none;
-        padding: 0.5rem 1rem;
+        padding: 0.4rem 0.8rem;  // 减少基础padding
         border-radius: 4px;
         transition: all 0.3s ease;
-        font-size: rem(18px);
+        font-size: rem(16px);  // 减小基础字体
         text-align: center;
+        
+        // 响应式字体和padding
+        @include media(">=sm") {
+          font-size: rem(18px);  // 桌面端更大字体
+          padding: 0.5rem 1rem;  // 桌面端更多padding
+        }
+        
+        @include media("<sm") {
+          font-size: rem(14px);  // 移动端更小字体
+          padding: 0.3rem 0.6rem;  // 移动端更少padding
+        }
         
         &:hover {
           background-color: $themeColor;
@@ -71,15 +109,37 @@
     }
     
     .menu-search {
-      margin-left: 1rem;
+      margin-left: 0.8rem;  // 减小基础margin
+      
+      // 响应式margin
+      @include media(">=sm") {
+        margin-left: 1.2rem;  // 桌面端更大margin
+      }
+      
+      @include media("<sm") {
+        margin-left: 0.5rem;  // 移动端更小margin
+      }
       
       .dosearch {
         display: block;
-        width: rem(30px);
-        height: rem(30px);
+        width: rem(26px);  // 减小基础尺寸
+        height: rem(26px);
         cursor: pointer;
         border-radius: rem(4px);
-        padding: rem(5px);
+        padding: rem(4px);  // 减小基础padding
+        
+        // 响应式尺寸
+        @include media(">=sm") {
+          width: rem(32px);  // 桌面端更大尺寸
+          height: rem(32px);
+          padding: rem(6px);
+        }
+        
+        @include media("<sm") {
+          width: rem(22px);  // 移动端更小尺寸
+          height: rem(22px);
+          padding: rem(3px);
+        }
         transition: all 0.3s ease;
         
         &:hover {
@@ -97,10 +157,10 @@
 }
 
 
-// 为了防止内容被固定菜单遮挡
-body {
-  padding-top: 100px; // 增加padding以避免被菜单遮挡
-}
+// 为了防止内容被固定菜单遮挡，在具体页面组件中设置padding
+// body {
+//   padding-top: 100px; // 移除全局padding，改为在具体组件中设置
+// }
 
 // 响应式设计
 @media (max-width: 768px) {
@@ -120,9 +180,10 @@ body {
     }
   }
   
-  body {
-    padding-top: 100px;    // 增加移动端的top padding
-  }
+  // 移除移动端body padding，在具体组件中设置
+  // body {
+  //   padding-top: 100px;    
+  // }
 }
 
 body.has-push-menu,
