@@ -1,6 +1,6 @@
 // Modern Code Block Styles
 pre {
-  background: #1e1e1e;
+  background: #0d1117 !important;
   border-radius: 16px;
   padding: 1.5rem;
   margin: 2rem 0;
@@ -41,7 +41,7 @@ p code, li code {
 
 // Dark theme for syntax highlighting
 .highlight {
-  background: #1e1e1e;
+  background: #0d1117 !important;
   border-radius: 16px;
   
   .c { color: #6A9955; font-style: italic } /* Comment */
@@ -116,4 +116,24 @@ p code, li code {
   
   .lineno::-moz-selection { background-color: transparent; }
   .lineno::selection { background-color: transparent; }
+}
+
+// Force override highlight.js backgrounds
+.hljs {
+  background: #0d1117 !important;
+  color: #c9d1d9 !important;
+}
+
+// Override any pre elements with hljs class
+pre.hljs {
+  background: #0d1117 !important;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  overflow-x: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border-left: 4px solid #007acc;
+  font-family: 'Fira Code', 'Monaco', 'Consolas', 'Menlo', monospace;
+  font-size: 14px;
+  line-height: 1.6;
 }

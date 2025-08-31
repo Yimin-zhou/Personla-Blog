@@ -1,13 +1,13 @@
 .post {
   position: relative;
-  top: rem(30px);
+  top: 0;
   background-color: map-get($theme, postBackground);
   min-height: 100vh;
   padding: rem(20px) rem(10px);
   transition: background-color 0.3s ease;
 
   @include media(">=sm") {
-    top: rem(50px);
+    top: 0;
     padding: rem(30px) rem(20px);
   }
 }
@@ -69,7 +69,7 @@
   figcaption,
   img + em {
     display: block;
-    color: darken($lightGray, 30%);
+    color: #94a3b8;
     text-align: center;
     @include mainFont(300);
   }
@@ -91,6 +91,7 @@
     letter-spacing: 0.025rem;
     padding: 0 rem(20px);
     margin: rem(20px) auto 0;
+    color: map-get($theme, texts);
 
     @include media(">=sm") {
       font-size: rem(15px);
@@ -106,7 +107,7 @@
   }
 
   p.post-subtitle {
-    color: darken($lightGray, 30%);
+    color: #94a3b8;
     font-size: rem(17px);
     margin: rem(10px) auto;
     line-height: 1.6;
@@ -131,7 +132,7 @@
     @include mainFont(300);
     font-size: rem(13px);
     letter-spacing: 0;
-    color: darken($lightGray, 30%);
+    color: #94a3b8;
     margin: 0 auto;
 
     @include media(">=sm") {
@@ -154,7 +155,7 @@
 
   p,
   li {
-    color: $texts;
+    color: map-get($theme, texts);
 
     // code {
     //   font-size: rem(10px);
@@ -252,7 +253,7 @@
 
   blockquote {
     @include center(rem(730px));
-    border-left: rem(5px) solid $texts;
+    border-left: rem(5px) solid map-get($theme, texts);
     padding: 0 rem(10px);
     margin: rem(30px) auto;
     width: 90%;
@@ -265,7 +266,8 @@
 
     p {
       font-size: rem(17px);
-      color: rgba(0, 0, 0, 0.6);
+      color: map-get($theme, texts);
+      opacity: 0.8;
       margin: 0;
       @include media(">=sm") {
         font-size: rem(20px);
@@ -303,11 +305,12 @@
 
     th,
     td {
-      border: rem(1px) solid #ccc;
+      border: rem(1px) solid #475569;
       padding: rem(5px) rem(10px);
+      color: map-get($theme, texts);
 
       @include media(">=sm") {
-        border: rem(2px) solid #ccc;
+        border: rem(2px) solid #475569;
         padding: rem(10px) rem(20px);
       }
     }
@@ -330,6 +333,7 @@
   h5,
   h6 {
     position: relative;
+    color: map-get($theme, texts);
 
     .anchor {
       display: none;
@@ -734,5 +738,46 @@
       }
     }
   }
+}
+
+// MathJax dark theme styles
+.MathJax, .MathJax_Display {
+  color: map-get($theme, texts) !important;
+}
+
+.MathJax svg {
+  color: map-get($theme, texts) !important;
+}
+
+.MathJax_Display {
+  text-align: center !important;
+  margin: 1em 0 !important;
+}
+
+// Override any MathJax inline styles
+mjx-container[jax="CHTML"] {
+  color: map-get($theme, texts) !important;
+}
+
+mjx-container[jax="CHTML"] mjx-math {
+  color: map-get($theme, texts) !important;
+}
+
+// For MathJax v3
+mjx-container {
+  color: map-get($theme, texts) !important;
+}
+
+mjx-math {
+  color: map-get($theme, texts) !important;
+}
+
+// Additional MathJax element targeting
+.mjx-chtml {
+  color: map-get($theme, texts) !important;
+}
+
+.mjx-math {
+  color: map-get($theme, texts) !important;
 }
 

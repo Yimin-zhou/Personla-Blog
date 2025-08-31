@@ -2,10 +2,10 @@
   @include mainFont(400);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: rem(20px);  // 减少顶部padding
+  padding-top: rem(60px);  // 增加顶部padding避免被菜单遮挡
 
   @include media(">=sm") {
-    padding-top: rem(30px);  // 减少顶部padding
+    padding-top: rem(70px);  // 增加顶部padding避免被菜单遮挡
   }
 
   &.no-padding {
@@ -50,8 +50,7 @@
   background-color: map-get($theme, boxBackground);
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid map-get($theme, boxBorder);
-  box-shadow: 0 4px 20px map-get($theme, boxShadow);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px);
 
   @include media(">=sm") {
@@ -75,7 +74,7 @@
   &:hover {
     z-index: 2;
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px map-get($theme, boxShadowHover);
+    box-shadow: 0 25px 50px rgba(79, 167, 255, 0.25), 0 12px 20px rgba(0, 0, 0, 0.12);
     border-color: map-get($theme, accentDark);
 
     img {

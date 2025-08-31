@@ -117,6 +117,24 @@
         MathJax = {
           tex: {
             inlineMath: [['$', '$'], ['\\(', '\\)']]
+          },
+          chtml: {
+            scale: 1,
+            minScale: 0.5,
+            mathmlSpacing: true
+          },
+          startup: {
+            ready() {
+              MathJax.startup.defaultReady();
+              // Force dark theme colors
+              const style = document.createElement('style');
+              style.textContent = `
+                .MathJax, .MathJax_Display, mjx-container, mjx-math, .mjx-chtml, .mjx-math {
+                  color: #e2e8f0 !important;
+                }
+              `;
+              document.head.appendChild(style);
+            }
           }
         };
       </script>

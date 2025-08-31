@@ -1,6 +1,9 @@
 html,
 body {
   height: 100%;
+  background-color: map-get($theme, postBackground);
+  margin: 0;
+  padding: 0;
 }
 
 .bar-header {

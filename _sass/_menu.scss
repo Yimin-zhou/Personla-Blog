@@ -99,7 +99,7 @@
 
 // 为了防止内容被固定菜单遮挡
 body {
-  padding-top: 80px; // 调整此值以匹配菜单高度
+  padding-top: 100px; // 增加padding以避免被菜单遮挡
 }
 
 // 响应式设计
@@ -121,7 +121,7 @@ body {
   }
   
   body {
-    padding-top: 80px;    // Reduce top padding for mobile
+    padding-top: 100px;    // 增加移动端的top padding
   }
 }
 
