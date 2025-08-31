@@ -21,6 +21,12 @@
 .flex-grid {
   display: flex;
   flex-flow: row wrap;
+  
+  // Ensure proper display in category sections
+  .category-section & {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
 
 .title-category {
@@ -39,6 +45,8 @@
   transition: all 0.3s;
   position: relative;
   z-index: 1;
+  opacity: 1;
+  visibility: visible;
 
   @include media(">=sm") {
     margin: 0 rem($itemMargin) rem(30px);
@@ -218,5 +226,65 @@
 
   .box-info {
     padding: rem(15px);
+  }
+}
+
+// Category section styles
+.category-section {
+  margin-bottom: rem(60px);
+
+  .category-header {
+    margin-bottom: rem(40px);
+    text-align: center;
+
+    .category-title {
+      margin: 0;
+      font-size: rem(32px);
+      font-weight: 800;
+      color: $accentDark;
+      text-transform: capitalize;
+
+      a {
+        text-decoration: none;
+        color: inherit;
+
+        &:hover {
+          color: $themeColor;
+        }
+      }
+    }
+
+    .category-divider {
+      width: rem(60px);
+      height: rem(3px);
+      background-color: $themeColor;
+      margin: rem(20px) auto 0;
+    }
+  }
+
+  // Category section specific overrides
+  .box-item {
+    // Ensure visibility in category layout
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    
+    // Override any potential hiding styles
+    &:not(:hover) {
+      transform: none;
+    }
+    
+    .box-body {
+      // Ensure content is visible
+      .box-info {
+        opacity: 1;
+        visibility: visible;
+        
+        h2, p, time {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
   }
 }
