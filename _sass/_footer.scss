@@ -10,8 +10,8 @@
 
 footer {
   @include center(rem(800px));
-  border-top: 1px solid darken($accentDark, 10%);
-  background: $accentDark;
+  border-top: 1px solid map-get($theme, texts);
+  background: map-get($theme, postBackground);  // 使用深色背景
   padding: rem(20px) rem(25px);
   margin-top: rem(50px);
   margin-bottom: rem(120px);
@@ -23,13 +23,14 @@ footer {
 
   p {
     text-decoration: none;
-    color: $primaryDark;
+    color: map-get($theme, texts);  // 使用浅色文字
     font-size: rem(16px);
     line-height: rem(25px);
   }
 
   span {
     font-weight: 700;
+    color: map-get($theme, texts);  // 确保span也是浅色
   }
 
   svg {
@@ -53,13 +54,14 @@ footer {
 
   a {
     display: inline-block;
-    fill: #808080;
+    fill: map-get($theme, texts);  // 使用浅色图标
     transition: all 0.3s ease;
     text-decoration: none;
-    color: #808080;
+    color: map-get($theme, texts);  // 使用浅色文字
     
     &:hover {
       fill: $themeColor;
+      color: $themeColor;  // 悬停时显示主题色
     }
     
     &.creator:hover {
@@ -73,14 +75,17 @@ footer {
 
     li {
       margin-bottom: rem(10px);
+      color: map-get($theme, texts);  // 列表项使用浅色
     }
 
     a {
       text-decoration: none;
       font-size: rem(15px);
+      color: map-get($theme, texts);  // 列表链接使用浅色
       
       &:hover {
         text-decoration: underline;
+        color: $themeColor;  // 悬停时显示主题色
       }
     }
   }
@@ -88,11 +93,11 @@ footer {
 
 .main-page {
   footer {
-    background: $primaryDark;
-    border-top: 1px solid lighten($primaryDark, 10%);
+    background: map-get($theme, postBackground);  // 使用深色背景
+    border-top: 1px solid map-get($theme, texts);  // 使用浅色边框
     
     p {
-      color: $accentDark;
+      color: map-get($theme, texts);  // 使用浅色文字
     }
   }
 }
