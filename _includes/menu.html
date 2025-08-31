@@ -1,11 +1,26 @@
 <nav class="menu">
   <div class="menu-content">
-      {% for item in site.menu %}
-          {% assign current_path = page.url | remove: 'index.html' %}
-          <a href="{{ site.baseurl }}{{ item.url }}" 
-             class="{% if current_path contains item.url and item.url != '/' %}active{% endif %}{% if current_path == '/' and item.url == '/' %}active{% endif %}">
-              {{ item.title }}
+      <!-- 左侧标题 -->
+      <div class="menu-logo">
+          <a href="{{ site.baseurl }}/">{{ site.name }}</a>
+      </div>
+      
+      <!-- 中间菜单项 -->
+      <div class="menu-items">
+          {% for item in site.menu %}
+              {% assign current_path = page.url | remove: 'index.html' %}
+              <a href="{{ site.baseurl }}{{ item.url }}" 
+                 class="{% if current_path contains item.url and item.url != '/' %}active{% endif %}{% if current_path == '/' and item.url == '/' %}active{% endif %}">
+                  {{ item.title }}
+              </a>
+          {% endfor %}
+      </div>
+      
+      <!-- 右侧搜索 -->
+      <div class="menu-search">
+          <a id="search" class="dosearch" role="button">
+              <svg class="icon-search"><use xlink:href="#icon-search"></use></svg>
           </a>
-      {% endfor %}
+      </div>
   </div>
 </nav>

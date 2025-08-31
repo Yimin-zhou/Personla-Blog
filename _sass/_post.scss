@@ -1,9 +1,14 @@
 .post {
   position: relative;
   top: rem(30px);
+  background-color: map-get($theme, postBackground);
+  min-height: 100vh;
+  padding: rem(20px) rem(10px);
+  transition: background-color 0.3s ease;
 
   @include media(">=sm") {
     top: rem(50px);
+    padding: rem(30px) rem(20px);
   }
 }
 
@@ -32,9 +37,22 @@
 .post-content {
   overflow-x: auto;
   padding: rem(40px) 0;
+  background-color: map-get($theme, postContentBackground);
+  margin: rem(20px) auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  
+  @include media(">=sm") {
+    max-width: rem(900px);
+    margin: rem(30px) auto;
+    padding: rem(50px) rem(30px);
+  }
 
   &.fullwidth {
     padding: rem(100px) rem(10px) 0;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   img {
@@ -263,9 +281,12 @@
 
   pre {
     overflow-x: auto;
-    font-size: 0.8em; /* Smaller font size */
-    padding: 5px 10px; /* Reduced padding */
-    line-height: 1.2; /* Tighter line height */
+    font-size: 0.9em;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
   }
 
   table {
@@ -397,7 +418,7 @@
   height: 38px;
   padding: rem(30px) 0;
   border-bottom: 1px solid $themeColor;
-  background-color: #fff;
+  background-color: map-get($theme, postContentBackground);
   transition: bottom 0.5s;
 
   .bar {

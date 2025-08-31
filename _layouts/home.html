@@ -42,16 +42,50 @@ layout: main
     {% endif %}
 
     <!-- Posts by Category -->
-    {% assign categorized_posts = posts offset: offset | group_by: 'category' %}
+    {% assign posts_with_offset = posts | offset: offset %}
+    {% assign categorized_posts = posts_with_offset | group_by: 'category' %}
+    
+    <!-- Custom category order (can be set in _config.yml) -->
+    {% if site.category_order %}
+        {% assign category_order = site.category_order %}
+    {% else %}
+        <!-- Default order if not set in config -->
+        {% assign category_order = 'graphics,game,tutorial,blog' | split: ',' %}
+    {% endif %}
+    
+    <!-- Sort categories by custom order -->
+    {% assign sorted_categories = '' | split: '' %}
+    
+    <!-- First, add categories in the specified order -->
+    {% for category_name in category_order %}
+        {% for category_group in categorized_posts %}
+            {% if category_group.name == category_name %}
+                {% assign sorted_categories = sorted_categories | push: category_group %}
+                {% break %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    
+    <!-- Then, add any remaining categories not in the custom order -->
     {% for category_group in categorized_posts %}
+        {% assign found = false %}
+        {% for sorted_category in sorted_categories %}
+            {% if sorted_category.name == category_group.name %}
+                {% assign found = true %}
+                {% break %}
+            {% endif %}
+        {% endfor %}
+        {% unless found %}
+            {% assign sorted_categories = sorted_categories | push: category_group %}
+        {% endunless %}
+    {% endfor %}
+    
+    {% for category_group in sorted_categories %}
         <section class="category-section">
             <div class="category-header">
                 <h2 class="category-title">
-                    <a href="{{ site.baseurl }}/{{ site.categories_folder | default: 'category' }}/{{ category_group.name }}">
-                        {{ category_group.name | capitalize }}
-                    </a>
+                    {{ category_group.name | capitalize }}
                 </h2>
-                <div class="category-divider"></div>
             </div>
             
             <section class="row flex-grid">
@@ -66,25 +100,16 @@ layout: main
                             <a class="cover" href="{{ post.url | prepend: site.baseurl }}">
                                 {% include loader.html %}
                                 {% if post.optimized_image %}
-                                    <img src="/assets/img/placeholder.png" width="100%" data-url="{{ post.optimized_image }}" class="preload">
-                                    <noscript>
-                                        <img src="{{ post.optimized_image }}" width="100%">
-                                    </noscript>
+                                    <img src="{{ post.optimized_image }}" width="100%" alt="{{ post.title }}">
                                 {% elsif post.image %}
-                                    <img src="/assets/img/placeholder.png" width="100%" data-url="{{ post.image }}" class="preload">
-                                    <noscript>
-                                        <img src="{{ post.image }}" width="100%">
-                                    </noscript>
+                                    <img src="{{ post.image }}" width="100%" alt="{{ post.title }}">
                                 {% else %}
-                                    <img src="/assets/img/placeholder.png" width="100%" data-url="/assets/img/off.jpg" class="preload">
-                                    <noscript>
-                                        <img src="/assets/img/off.jpg" width="100%">
-                                    </noscript>
+                                    <img src="/assets/img/off.jpg" width="100%" alt="{{ post.title }}">
                                 {% endif %}
                                 {% include new-post-tag.html date=post.date %}
                                 {% include read-icon.html %}
                             </a>
-                            <div class="box-info">
+                            <div class="box-content">
                                 <time datetime="{{ post.date | date_to_xmlschema }}" class="date">
                                     {% include date.html date=post.date %}
                                 </time>

@@ -2,10 +2,10 @@
   @include mainFont(400);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: rem(80px);
+  padding-top: rem(20px);  // 减少顶部padding
 
   @include media(">=sm") {
-    padding-top: rem(100px);
+    padding-top: rem(30px);  // 减少顶部padding
   }
 
   &.no-padding {
@@ -42,11 +42,17 @@
   margin: 0 0 rem(30px);
   display: inline-block;
   min-height: rem(285px);
-  transition: all 0.3s;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   z-index: 1;
   opacity: 1;
   visibility: visible;
+  background-color: map-get($theme, boxBackground);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid map-get($theme, boxBorder);
+  box-shadow: 0 4px 20px map-get($theme, boxShadow);
+  backdrop-filter: blur(10px);
 
   @include media(">=sm") {
     margin: 0 rem($itemMargin) rem(30px);
@@ -68,15 +74,13 @@
 
   &:hover {
     z-index: 2;
-    transform: scale(1.1);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px map-get($theme, boxShadowHover);
+    border-color: map-get($theme, accentDark);
 
     img {
-      -webkit-filter: grayscale(100%);
-      filter: grayscale(100%);
       transform: scale(1.05);
-      object-fit: cover;
-      width: 270px;
-      height: 159.6px;
+      filter: brightness(1.1) saturate(1.1);
     }
 
     .box-body {
@@ -88,10 +92,6 @@
       .cover {
         .new-post-tag {
           background-color: #000;
-        }
-
-        .read-icon {
-          opacity: 1;
         }
       }
     }
@@ -117,34 +117,68 @@
   }
 
   .box-body {
+    position: relative;
+    
+    .box-content {
+      padding: rem(20px);
+      
+      @include media(">=sm") {
+        padding: rem(24px);
+      }
+    }
+    
     img {
       object-fit: cover;
-      width: 270px * 1.1;
-      height: 159.6px * 1.1;
+      width: 100%;
+      height: 160px; // 移动端较小高度
+      max-width: 100%;
       margin: 0 auto;
-      transition: all 0.2s ease-in-out;
+      transition: all 0.4s ease-out;
+      display: block;
+      
+      @include media(">=sm") {
+        height: 200px; // 桌面端较大高度
+      }
     }
 
     time {
-      font-weight: 300;
-      font-size: rem(16px);
-      color: darken($lightGray, 50%);
+      font-weight: 500;
+      font-size: rem(13px);
+      color: map-get($theme, timeColor);
       pointer-events: none;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: rem(8px);
+      display: block;
+      
+      @include media(">=sm") {
+        font-size: rem(14px);
+      }
     }
 
     h2 {
-      margin: rem(10px) 0;
-      font-size: rem(24px);
-      @include mainFont(800);
-      color: $accentDark;
-      line-height: rem(30px);
+      margin: rem(12px) 0 rem(8px) 0;
+      font-size: rem(20px);
+      @include mainFont(700);
+      color: #4fa7ff;
+      line-height: 1.4;
+      letter-spacing: -0.02em;
+      
+      @include media(">=sm") {
+        font-size: rem(22px);
+      }
     }
 
     p {
-      margin: 0 0 rem(30px);
-      color: darken($lightGray, 20%);
-      font-size: rem(17px);
-      line-height: rem(26px);
+      margin: 0 0 rem(16px);
+      color: lighten(map-get($theme, texts), 25%);
+      font-size: rem(14px);
+      line-height: 1.6;
+      letter-spacing: 0.01em;
+      
+      @include media(">=sm") {
+        font-size: rem(15px);
+      }
     }
 
     .tags a {
@@ -231,35 +265,64 @@
 
 // Category section styles
 .category-section {
-  margin-bottom: rem(60px);
+  margin-bottom: rem(40px);
+  
+  // 优化分区分割线样式
+  &:not(:last-child) {
+    padding-bottom: rem(10px);
+    position: relative;
+    
+    // 创建简洁分割线
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: rem(15px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 2px;
+      background-color: $themeColor;
+      border-radius: 1px;
+    }
+  
+  }
 
   .category-header {
-    margin-bottom: rem(40px);
-    text-align: center;
-
+    margin-bottom: rem(30px);
+    text-align: left; // 改为左对齐
+    padding: 0 rem(15px); // 添加左右内边距
+    
     .category-title {
       margin: 0;
-      font-size: rem(32px);
-      font-weight: 800;
+      font-size: rem(28px); // 稍微减小字体
+      font-weight: 700;
       color: $accentDark;
       text-transform: capitalize;
-
-      a {
-        text-decoration: none;
-        color: inherit;
-
-        &:hover {
-          color: $themeColor;
-        }
+      display: inline-block;
+      position: relative;
+      padding-bottom: rem(10px);
+      
+      // 添加下划线装饰
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: rem(40px);
+        height: rem(3px);
+        background-color: $themeColor;
       }
     }
 
+    // 移除分隔线，因为我们用了底部边框
     .category-divider {
-      width: rem(60px);
-      height: rem(3px);
-      background-color: $themeColor;
-      margin: rem(20px) auto 0;
+      display: none;
     }
+  }
+  
+  // 调整flex-grid在分区中的间距
+  .flex-grid {
+    padding: 0 rem(15px);
   }
 
   // Category section specific overrides
@@ -283,6 +346,32 @@
         h2, p, time {
           opacity: 1;
           visibility: visible;
+        }
+      }
+      
+      // Fix image display in category sections
+      .cover {
+        display: block;
+        position: relative;
+        overflow: hidden;
+        
+        img {
+          display: block !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          width: 100% !important;
+          height: 160px !important; // 移动端高度
+          max-width: 100%;
+          object-fit: cover;
+          
+          @include media(">=sm") {
+            height: 200px !important; // 桌面端高度
+          }
+        }
+        
+        // Ensure placeholder and preload images work
+        img.preload {
+          display: block !important;
         }
       }
     }

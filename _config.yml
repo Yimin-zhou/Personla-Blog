@@ -21,12 +21,19 @@ menu:
   - title: 关于我
     url: /about
 
+# Category display order (customize as needed)
+category_order:
+  - 渲染
+  - 场景
+  - 游戏
+  - 学习
 
 # Posts Settings
 show_time_bar: false
 show_modal_on_exit: false
 show_modal_on_finish_post: false
 two_columns_layout: true
+
 
 
 # Advanced Settings

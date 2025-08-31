@@ -13,37 +13,84 @@
   background-color: $primaryDark;
   z-index: 100;
   font-weight: 100;
+  border-bottom: 2px solid #007acc;
   
   .menu-content {
-    padding: 1rem;
-    max-width: 1000px;
-    margin: 0 auto;
+    padding: 0.5rem rem(15px);
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;  // Add this to center menu items
-    align-items: center;      // Add this to vertically center items
+    align-items: center;
     
-    a {
-      @include mainFont(600);  // 为链接添加字体
-      color: $accentDark;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      transition: all 0.3s ease;
-      font-size: rem(16px);  // 添加字体大小
-      text-align: center;     // Add this to center text within links
-      
-      &:hover {
-        background-color: $themeColor;
-        color: #fff;
-        @include mainFont(800);  // hover 状态加粗
+    .menu-logo {
+      margin-right: auto;
+
+      a {
+        @include mainFont(700);
+        color: $accentDark;
+        text-decoration: none;
+        font-size: rem(30px);
+        font-weight: bold;
+        
+        &:hover {
+          color: lighten($accentDark, 10%);
+          background: none;
+        }
       }
+    }
+    
+    .menu-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
       
-      &.active {
-        background-color: $themeColor;
-        color: #fff;
-        @include mainFont(800);  // 当前活动项加粗
+      a {
+        @include mainFont(600);
+        color: $accentDark;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        font-size: rem(18px);
+        text-align: center;
+        
+        &:hover {
+          background-color: $themeColor;
+          color: #fff;
+          @include mainFont(800);
+        }
+        
+        &.active {
+          background-color: $themeColor;
+          color: #fff;
+          @include mainFont(800);
+        }
+      }
+    }
+    
+    .menu-search {
+      margin-left: 1rem;
+      
+      .dosearch {
+        display: block;
+        width: rem(30px);
+        height: rem(30px);
+        cursor: pointer;
+        border-radius: rem(4px);
+        padding: rem(5px);
+        transition: all 0.3s ease;
+        
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .icon-search {
+          width: rem(20px);
+          height: rem(20px);
+          fill: $accentDark;
+        }
       }
     }
   }
@@ -52,7 +99,7 @@
 
 // 为了防止内容被固定菜单遮挡
 body {
-  padding-top: 60px; // 调整此值以匹配菜单高度
+  padding-top: 80px; // 调整此值以匹配菜单高度
 }
 
 // 响应式设计
